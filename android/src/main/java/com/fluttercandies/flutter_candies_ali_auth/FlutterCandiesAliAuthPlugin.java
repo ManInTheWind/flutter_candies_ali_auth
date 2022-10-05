@@ -1,15 +1,33 @@
 package com.fluttercandies.flutter_candies_ali_auth;
 
+import android.app.Activity;
+import android.content.Context;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthModel;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel;
+import com.mobile.auth.gatewayauth.AuthUIConfig;
+import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
+
+import java.util.Objects;
+
 /** FlutterCandiesAliAuthPlugin */
-public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHandler {
+public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
+
+  private AuthClient authClient;
+  private AuthModel authModel;
+
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -18,7 +36,8 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_candies_ali_auth");
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
+    authClient = new AuthClient();
     channel.setMethodCallHandler(this);
   }
 
@@ -29,10 +48,67 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
     } else {
       result.notImplemented();
     }
+
+    switch (call.method) {
+      case "init":
+        AuthModel authModel = AuthModel.fromJson(call.arguments);
+        if(Objects.isNull(authModel.androidSdk) || TextUtils.isEmpty(authModel.androidSdk)){
+          AuthResponseModel authResponseModel = AuthResponseModel.NullSdkError();
+          result.success(authResponseModel.toJson());
+        }
+        authClient.setAuthModel(authModel);
+        authClient.initSdk(result);
+      case "checkEnv":
+        authClient.checkEnv(result);
+      case "accelerateLoginPage":
+      case "login":
+      case "loginWithConfig":
+      case "getAliAuthVersion":
+        getAliAuthVersion(result);
+      case "getPlatformVersion":
+        result.success("Android " + android.os.Build.VERSION.RELEASE);
+      default:
+        result.notImplemented();
+    }
+  }
+
+  private void getAliAuthVersion(@NonNull Result result) {
+    String version = PhoneNumberAuthHelper.getVersion();
+    result.success(version);
   }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
+  }
+
+  @Override
+  public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+    authClient.setActivity(binding.getActivity());
+  }
+
+  @Override
+  public void onDetachedFromActivityForConfigChanges() {
+
+  }
+
+  @Override
+  public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
+
+  }
+
+  @Override
+  public void onDetachedFromActivity() {
+
+  }
+
+  @Override
+  public void onListen(Object arguments, EventChannel.EventSink events) {
+
+  }
+
+  @Override
+  public void onCancel(Object arguments) {
+
   }
 }

@@ -24,7 +24,8 @@ class _DebugPageState extends State<DebugPage> {
   final AuthConfig _authConfig = AuthConfig(
     iosSdk:
         "WejeYep8gUJhTydrTYaUo574CJx+UDbMKNU4p0thsNB1Jpy2zbKXNuYgN0di171vjsxp+Ndrgo6hx32UMMA1a82Ga+fyvGxicAg4zYEY0+rp0h6x9VDeD6nkDAxx0T/l6+0e7MA0oye5uBSWV1+pAb3kPrJh5TXMugGtcyRokjpsxsEa7z9wpbNl5cDc9ZoChJytHsKGLRd5jBRefMh6x+J5YqBKq6cAYAbbDujGozhACSWR3qXqd5qH323griA/cmnjYxPWj+4kORa3WZv8gISy2gwEw2Ya8d1ZjDYBSD50LNgza/NMpw==",
-    androidSdk: "",
+    androidSdk:
+        "5xBnSnnTAi++0kZy+qrHX7YZC3GwUc5ELFj81fRldIA7cfRRtMZyw41r5grcMlUgkJuDrw+qIZJ3/Wqh7ysZRyV5SD1DTPlMo2P84y9FE5u6UzbUQzPVrsjZ/6tsgi0iHKbWt6bXwudkK7z4IH0qKFEsZXFBZwtWwuV2Z2Z43Rstg6TiYZdhIaqeJUNSlE6vIN88Umr3v/IKon8DJCbBzEP/jwIRxLRWE6Ng2IuniyqhudqhU6BSAahv+WeniD8uixr1a5nY+5mRXtZrFXhwNupDFX8qj9DWq3GBR+1lHwC/QmJS4GYNMfpXcKfQKvTr/KMMn6XkGuShAUv9K7Kcrw7/No1Xz1bd",
     authUIStyle: AuthUIStyle.fullScreen,
     authUIConfig: FullScreenUIConfig(
       navConfig: NavConfig(

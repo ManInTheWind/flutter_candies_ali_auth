@@ -28,13 +28,6 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if call.method == "getPlatformVersion" {
-            result("iOS " + UIDevice.current.systemVersion)
-
-        } else if call.method == "getAliAuthVersion" {
-            getVersion(result: result)
-        }
-
         switch call.method {
         case "init":
             initSdk(arguments: call.arguments, result: result)
@@ -49,6 +42,10 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
             login(arguments: call.arguments, result: result)
         case "cancelListen":
             cancelListenLoginEvent(result: result)
+        case "getPlatformVersion":
+            result("iOS " + UIDevice.current.systemVersion)
+        case "getAliAuthVersion":
+            getVersion(result: result)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -385,9 +382,9 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
             }
         }
     }
-    
-    public func cancelListenLoginEvent(result:@escaping FlutterResult){
-        let flutterError:FlutterError? =  onCancel(withArguments: nil)
-        result(flutterError);
+
+    public func cancelListenLoginEvent(result: @escaping FlutterResult) {
+        let flutterError: FlutterError? = onCancel(withArguments: nil)
+        result(flutterError)
     }
 }
