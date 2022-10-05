@@ -1,8 +1,11 @@
 package com.fluttercandies.flutter_candies_ali_auth;
 
+import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel.failedListeningMsg;
+
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -25,6 +28,9 @@ import java.util.Objects;
 /** FlutterCandiesAliAuthPlugin */
 public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
 
+  public static final String TAG = FlutterCandiesAliAuthPlugin.class.getSimpleName();
+
+
   private AuthClient authClient;
   private AuthModel authModel;
 
@@ -37,44 +43,49 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
+    EventChannel auth_event = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "auth_event");
+    auth_event.setStreamHandler(this);
     authClient = new AuthClient();
     channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
+    Log.w(TAG, "call.method：" + call.method);
+    if(call.method.equals("getPlatformVersion")){
       result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
+      return;
+    }else if (call.method.equals("getAliAuthVersion")){
+      getAliAuthVersion(result);
+      return;
     }
-
+    if(Objects.isNull(authClient.eventSink)){
+      AuthResponseModel authResponseModel = AuthResponseModel.initFailed(failedListeningMsg);
+      result.success(authResponseModel.toJson());
+      return;
+    }
     switch (call.method) {
       case "init":
-        AuthModel authModel = AuthModel.fromJson(call.arguments);
-        if(Objects.isNull(authModel.androidSdk) || TextUtils.isEmpty(authModel.androidSdk)){
-          AuthResponseModel authResponseModel = AuthResponseModel.NullSdkError();
-          result.success(authResponseModel.toJson());
-        }
-        authClient.setAuthModel(authModel);
-        authClient.initSdk(result);
+        authClient.initSdk(call.arguments);
+        break;
       case "checkEnv":
-        authClient.checkEnv(result);
+        authClient.checkEnv();
+        break;
       case "accelerateLoginPage":
+        authClient.accelerateLoginPage();
       case "login":
+        authClient.getLoginToken();
       case "loginWithConfig":
-      case "getAliAuthVersion":
-        getAliAuthVersion(result);
-      case "getPlatformVersion":
-        result.success("Android " + android.os.Build.VERSION.RELEASE);
+        break;
       default:
         result.notImplemented();
+        break;
     }
   }
 
   private void getAliAuthVersion(@NonNull Result result) {
     String version = PhoneNumberAuthHelper.getVersion();
-    result.success(version);
+    result.success("阿里云一键登录版本:"+version);
   }
 
   @Override
@@ -104,11 +115,15 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
 
   @Override
   public void onListen(Object arguments, EventChannel.EventSink events) {
-
+    if(Objects.isNull(authClient.eventSink)){
+      authClient.setEventSink(events);
+    }
   }
 
   @Override
   public void onCancel(Object arguments) {
-
+    if(Objects.nonNull(authClient.eventSink)){
+      authClient.eventSink = null;
+    }
   }
 }

@@ -42,7 +42,7 @@ class _DebugPageState extends State<DebugPage> {
   void _onEvent(dynamic event) async {
     //print("-------------成功分割线-------------");
     final responseModel = AuthResponseModel.fromJson(Map.from(event));
-
+    print("responseModel:$responseModel");
     if (responseModel.resultCode == PNSCodeSuccess &&
         responseModel.token != null) {
       setState(() {
@@ -76,10 +76,11 @@ class _DebugPageState extends State<DebugPage> {
                 final responseModel = await AliAuthClient.initSdk(
                   authConfig: _authConfig,
                 );
-                print(responseModel);
+                print("onTap:$responseModel");
                 if (responseModel.resultCode == PNSCodeSuccess) {
                   SmartDialog.showToast(responseModel.msg ?? '初始化失败');
-                } else if (responseModel.resultCode == PNSCodeFailed) {
+                } else if (responseModel.resultCode == PNSCodeFailed ||
+                    responseModel.resultCode == PNSCodeDecodeAppInfoFailed) {
                   SmartDialog.showToast(responseModel.msg ?? '初始化失败');
                 }
               },

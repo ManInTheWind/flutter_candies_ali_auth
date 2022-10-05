@@ -8,7 +8,7 @@ import '../../flutter_candies_ali_auth.dart';
 class AliAuthClient {
   static const MethodChannel _methodChannel = MethodChannel('flutter_ali_auth');
 
-  static const EventChannel _loginEventChannel = EventChannel('login_event');
+  static const EventChannel _loginEventChannel = EventChannel('auth_event');
 
   // AliAuthClient() {
   //   print('$runtimeType init');

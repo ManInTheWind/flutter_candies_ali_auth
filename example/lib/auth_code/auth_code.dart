@@ -31,8 +31,11 @@ const String PNSCodeInterfaceLimited = "600014";
 /// 接口超时
 const String PNSCodeInterfaceTimeout = "600015";
 
-/// AppID、Appkey解析失败
+/// 接口超时
 const String PNSCodeDecodeAppInfoFailed = "600017";
+
+/// 预取号成功
+const String PNSCodeGetMaskPhoneSuccess = "600016";
 
 /// 运营商已切换
 const String PNSCodeCarrierChanged = "600021";
