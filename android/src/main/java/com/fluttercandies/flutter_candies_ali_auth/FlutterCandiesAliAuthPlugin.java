@@ -75,7 +75,9 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
         authClient.accelerateLoginPage();
       case "login":
         authClient.getLoginToken();
+        break;
       case "loginWithConfig":
+        authClient.getLoginToken();
         break;
       default:
         result.notImplemented();
