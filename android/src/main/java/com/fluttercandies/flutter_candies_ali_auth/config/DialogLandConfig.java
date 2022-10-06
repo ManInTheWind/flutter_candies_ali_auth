@@ -22,14 +22,16 @@ import com.fluttercandies.flutter_candies_ali_auth.R;
 import static com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils.dp2px;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.plugin.common.EventChannel;
+
 
 public class DialogLandConfig extends BaseUIConfig{
 
     private int mOldScreenOrientation;
 
 
-    public DialogLandConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+    public DialogLandConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
     }
 
     @Override

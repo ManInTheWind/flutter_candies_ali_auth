@@ -22,6 +22,8 @@ import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 
+import io.flutter.plugin.common.EventChannel;
+
 /**
  * xml文件方便预览
  * 可以通过addAuthRegisterXmlConfig一次性统一添加授权页的所有自定义view
@@ -30,8 +32,9 @@ public class CustomGifConfig extends BaseUIConfig {
     private CacheManage mCacheManage;
     private ExecutorService mThreadExecutor;
     private NativeBackgroundAdapter nativeBackgroundAdapter;
-    public CustomGifConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+
+    public CustomGifConfig(Activity activity, PhoneNumberAuthHelper authHelper,EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
         mCacheManage=new CacheManage(activity.getApplication());
         mThreadExecutor=new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(),
             Runtime.getRuntime().availableProcessors(),
@@ -52,7 +55,8 @@ public class CustomGifConfig extends BaseUIConfig {
         //sdk默认控件的区域是marginTop50dp
         int designHeight = mScreenHeightDp - 50;
         int unit = designHeight / 10;
-        mAuthHelper.addAuthRegisterXmlConfig(new AuthRegisterXmlConfig.Builder()
+        mAuthHelper.addAuthRegisterXmlConfig(
+                new AuthRegisterXmlConfig.Builder()
                 .setLayout(R.layout.authsdk_widget_custom_layout, new AbstractPnsViewDelegate() {
                     @Override
                     public void onViewCreated(View view) {

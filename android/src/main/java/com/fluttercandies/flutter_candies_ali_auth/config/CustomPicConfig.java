@@ -20,6 +20,8 @@ import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 import com.nirvana.tools.core.AppUtils;
 
+import io.flutter.plugin.common.EventChannel;
+
 /**
  * xml文件方便预览
  * 可以通过addAuthRegisterXmlConfig一次性统一添加授权页的所有自定义view
@@ -28,8 +30,8 @@ public class CustomPicConfig extends BaseUIConfig {
     private CacheManage mCacheManage;
     private ExecutorService mThreadExecutor;
     private NativeBackgroundAdapter nativeBackgroundAdapter;
-    public CustomPicConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+    public CustomPicConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
         mCacheManage=new CacheManage(activity.getApplication());
         mThreadExecutor=new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(),
             Runtime.getRuntime().availableProcessors(),

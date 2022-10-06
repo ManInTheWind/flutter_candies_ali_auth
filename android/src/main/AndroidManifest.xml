@@ -14,13 +14,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="m"
         >
-        <activity
-            android:name="io.flutter.embedding.android.FlutterActivity"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustResize"
-            android:usesCleartextTraffic="true"/>
+<!--        <activity-->
+<!--            android:name="io.flutter.embedding.android.FlutterActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:theme="@android:style/Theme.NoTitleBar"-->
+<!--            android:windowSoftInputMode="adjustResize"-->
+<!--            android:usesCleartextTraffic="true"/>-->
     </application>
 
 </manifest>

@@ -1,19 +1,18 @@
 package com.fluttercandies.flutter_candies_ali_auth.config;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
-import android.widget.Toast;
 
-import com.fluttercandies.flutter_candies_ali_auth.helper.MessageActivity;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 import com.fluttercandies.flutter_candies_ali_auth.R;
+
+import io.flutter.plugin.common.EventChannel;
 
 
 /**
@@ -22,8 +21,8 @@ import com.fluttercandies.flutter_candies_ali_auth.R;
  */
 public class CustomXmlConfig extends BaseUIConfig {
 
-    public CustomXmlConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+    public CustomXmlConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
     }
     @Override
     public void configAuthPage() {
@@ -44,15 +43,15 @@ public class CustomXmlConfig extends BaseUIConfig {
                             }
                         });
 
-                        findViewById(R.id.tv_switch).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
-                                Intent pIntent = new Intent(mActivity, MessageActivity.class);
-                                mActivity.startActivityForResult(pIntent, 1002);
-                                mAuthHelper.quitLoginPage();
-                            }
-                        });
+//                        findViewById(R.id.tv_switch).setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
+//                                Intent pIntent = new Intent(mActivity, MessageActivity.class);
+//                                mActivity.startActivityForResult(pIntent, 1002);
+//                                mAuthHelper.quitLoginPage();
+//                            }
+//                        });
                     }
                 })
                 .build());

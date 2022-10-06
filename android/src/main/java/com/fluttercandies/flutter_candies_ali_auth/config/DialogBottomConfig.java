@@ -1,30 +1,25 @@
 package com.fluttercandies.flutter_candies_ali_auth.config;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
-import android.widget.Toast;
 
-import com.fluttercandies.flutter_candies_ali_auth.helper.MessageActivity;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
-import com.mobile.auth.gatewayauth.CustomInterface;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
-import static com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils.dp2px;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.plugin.common.EventChannel;
 
 
 public class DialogBottomConfig extends BaseUIConfig {
 
-    public DialogBottomConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+    public DialogBottomConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
     }
 
     @Override
@@ -44,15 +39,15 @@ public class DialogBottomConfig extends BaseUIConfig {
         mAuthHelper.addAuthRegistViewConfig("switch_msg", new AuthRegisterViewConfig.Builder()
                 .setView(initSwitchView(unit * 6))
                 .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
-                .setCustomInterface(new CustomInterface() {
-                    @Override
-                    public void onClick(Context context) {
-                        Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
-                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
-                        mActivity.startActivityForResult(pIntent, 1002);
-                        mAuthHelper.quitLoginPage();
-                    }
-                })
+//                .setCustomInterface(new CustomInterface() {
+//                    @Override
+//                    public void onClick(Context context) {
+//                        Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
+//                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
+//                        mActivity.startActivityForResult(pIntent, 1002);
+//                        mAuthHelper.quitLoginPage();
+//                    }
+//                })
                 .build());
         mAuthHelper.addAuthRegisterXmlConfig(new AuthRegisterXmlConfig.Builder()
                 .setLayout(R.layout.custom_port_dialog_action_bar, new AbstractPnsViewDelegate() {

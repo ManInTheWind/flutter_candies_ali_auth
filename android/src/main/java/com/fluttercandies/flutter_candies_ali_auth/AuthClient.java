@@ -45,7 +45,7 @@ public class AuthClient {
     private TokenResultListener tokenResultListener;
 
     public Activity mActivity;
-    public Context context;
+    public Context mContext;
 
     public AuthModel authModel;
 
@@ -61,7 +61,7 @@ public class AuthClient {
 
     public void setActivity(Activity mActivity) {
         this.mActivity = mActivity;
-        this.context = mActivity.getBaseContext();
+        this.mContext = mActivity.getApplicationContext();
     }
 
     public void setEventSink(EventChannel.EventSink eventSink) {
@@ -127,7 +127,7 @@ public class AuthClient {
             }
         };
 
-        mPhoneNumberAuthHelper = PhoneNumberAuthHelper.getInstance(context,tokenResultListener);
+        mPhoneNumberAuthHelper = PhoneNumberAuthHelper.getInstance(mContext,tokenResultListener);
         mPhoneNumberAuthHelper.getReporter().setLoggerEnable(true);
         mPhoneNumberAuthHelper.setAuthSDKInfo(authModel.androidSdk);
         checkEnv();
@@ -191,7 +191,7 @@ public class AuthClient {
     }
 
     public void getLoginToken(){
-        baseUIConfig = BaseUIConfig.init(0,mActivity,mPhoneNumberAuthHelper);
+        baseUIConfig = BaseUIConfig.init(0,mActivity,mPhoneNumberAuthHelper,eventSink);
         assert baseUIConfig != null;
         baseUIConfig.configAuthPage();
         tokenResultListener = new TokenResultListener() {
@@ -227,71 +227,6 @@ public class AuthClient {
             }
         };
         mPhoneNumberAuthHelper.setAuthListener(tokenResultListener);
-        mPhoneNumberAuthHelper.getLoginToken(context,5000);
-    }
-
-    /**
-     * 配置竖屏样式
-     */
-    private void configLoginTokenPort() {
-        mPhoneNumberAuthHelper.removeAuthRegisterXmlConfig();
-        mPhoneNumberAuthHelper.removeAuthRegisterViewConfig();
-        mPhoneNumberAuthHelper.addAuthRegistViewConfig("switch_acc_tv", new AuthRegisterViewConfig.Builder()
-                .setView(initDynamicView())
-                .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
-                .setCustomInterface(new CustomInterface() {
-                    @Override
-                    public void onClick(Context context) {
-                        mPhoneNumberAuthHelper.quitLoginPage();
-                    }
-                }).build());
-        int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
-        if (Build.VERSION.SDK_INT == 26) {
-            authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_BEHIND;
-        }
-        mPhoneNumberAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
-                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
-                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
-                .setPrivacyState(false)
-                .setCheckboxHidden(true)
-                .setStatusBarColor(Color.TRANSPARENT)
-                .setStatusBarUIFlag(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-                .setLightColor(true)
-                .setAuthPageActIn("in_activity", "out_activity")
-                .setAuthPageActOut("in_activity", "out_activity")
-                .setProtocolShakePath("protocol_shake")
-                .setVendorPrivacyPrefix("《")
-                .setVendorPrivacySuffix("》")
-                .setLogoImgPath("mytel_app_launcher")
-                .setScreenOrientation(authPageOrientation)
-                .create());
-    }
-
-    private View initDynamicView() {
-        TextView switchTV = new TextView(context);
-        RelativeLayout.LayoutParams mLayoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, dp2px(context, 50));
-        mLayoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        mLayoutParams2.setMargins(0, dp2px(context, 450), 0, 0);
-        switchTV.setText("-----  自定义view  -----");
-        switchTV.setTextColor(0xff999999);
-        switchTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13.0F);
-        switchTV.setLayoutParams(mLayoutParams2);
-        return switchTV;
-    }
-
-    public void showLoadingDialog(String hint) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(context);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        }
-        mProgressDialog.setMessage(hint);
-        mProgressDialog.setCancelable(true);
-        mProgressDialog.show();
-    }
-
-    public void hideLoadingDialog() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        mPhoneNumberAuthHelper.getLoginToken(mContext,5000);
     }
 }

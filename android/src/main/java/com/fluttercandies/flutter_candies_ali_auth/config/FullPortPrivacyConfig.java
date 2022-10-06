@@ -2,33 +2,31 @@ package com.fluttercandies.flutter_candies_ali_auth.config;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fluttercandies.flutter_candies_ali_auth.R;
-import com.fluttercandies.flutter_candies_ali_auth.helper.MessageActivity;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.AuthUIControlClickListener;
-import com.mobile.auth.gatewayauth.CustomInterface;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ResultCode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.flutter.plugin.common.EventChannel;
+
 public class FullPortPrivacyConfig extends BaseUIConfig {
     private final String TAG = "全屏竖屏弹窗样式";
 
-    public FullPortPrivacyConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+    public FullPortPrivacyConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
     }
 
     @Override
@@ -97,15 +95,16 @@ public class FullPortPrivacyConfig extends BaseUIConfig {
         mAuthHelper.addAuthRegistViewConfig("switch_msg", new AuthRegisterViewConfig.Builder()
                 .setView(initSwitchView(350))
                 .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
-                .setCustomInterface(new CustomInterface() {
-                    @Override
-                    public void onClick(Context context) {
-                        Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
-                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
-                        mActivity.startActivityForResult(pIntent, 1002);
-                        mAuthHelper.quitLoginPage();
-                    }
-                }).build());
+//                .setCustomInterface(new CustomInterface() {
+//                    @Override
+//                    public void onClick(Context context) {
+//                        Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
+//                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
+//                        mActivity.startActivityForResult(pIntent, 1002);
+//                        mAuthHelper.quitLoginPage();
+//                    }
+//                })
+                .build());
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
         if (Build.VERSION.SDK_INT == 26) {
             authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_BEHIND;

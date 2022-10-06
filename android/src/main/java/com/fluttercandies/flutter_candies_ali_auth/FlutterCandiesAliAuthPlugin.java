@@ -4,11 +4,14 @@ import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseMode
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -26,7 +29,7 @@ import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import java.util.Objects;
 
 /** FlutterCandiesAliAuthPlugin */
-public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
+public class FlutterCandiesAliAuthPlugin extends FlutterActivity implements FlutterPlugin, MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
 
   public static final String TAG = FlutterCandiesAliAuthPlugin.class.getSimpleName();
 
@@ -42,10 +45,11 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
+    authClient = new AuthClient();
     EventChannel auth_event = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "auth_event");
     auth_event.setStreamHandler(this);
-    authClient = new AuthClient();
     channel.setMethodCallHandler(this);
   }
 
@@ -107,7 +111,7 @@ public class FlutterCandiesAliAuthPlugin implements FlutterPlugin, MethodCallHan
 
   @Override
   public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-
+    //authClient.setActivity(binding.getActivity());
   }
 
   @Override

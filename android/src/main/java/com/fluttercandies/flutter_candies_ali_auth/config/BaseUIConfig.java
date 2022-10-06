@@ -15,6 +15,8 @@ import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import static com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils.dp2px;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.plugin.common.EventChannel;
+
 
 public abstract class BaseUIConfig {
     public Activity mActivity;
@@ -22,42 +24,44 @@ public abstract class BaseUIConfig {
     public PhoneNumberAuthHelper mAuthHelper;
     public int mScreenWidthDp;
     public int mScreenHeightDp;
+    public EventChannel.EventSink fEventSink;
 
-    public static BaseUIConfig init(int type, Activity activity, PhoneNumberAuthHelper authHelper) {
+    public static BaseUIConfig init(int type, Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
         switch (type) {
             case Constant.FULL_PORT:
-                return new FullPortConfig(activity, authHelper);
+                return new FullPortConfig(activity, authHelper,eventSink);
             case Constant.FULL_LAND:
-                return new FullLandConfig(activity, authHelper);
+                return new FullLandConfig(activity, authHelper,eventSink);
             case Constant.DIALOG_PORT:
-                return new DialogPortConfig(activity, authHelper);
+                return new DialogPortConfig(activity, authHelper,eventSink);
             case Constant.DIALOG_LAND:
-                return new DialogLandConfig(activity, authHelper);
+                return new DialogLandConfig(activity, authHelper,eventSink);
             case Constant.DIALOG_BOTTOM:
-                return new DialogBottomConfig(activity, authHelper);
+                return new DialogBottomConfig(activity, authHelper,eventSink);
             case Constant.CUSTOM_VIEW:
-                return new CustomViewConfig(activity, authHelper);
+                return new CustomViewConfig(activity, authHelper,eventSink);
             case Constant.CUSTOM_XML:
-                return new CustomXmlConfig(activity, authHelper);
+                return new CustomXmlConfig(activity, authHelper,eventSink);
             case Constant.CUSTOM_GIF:
-                return new CustomGifConfig(activity, authHelper);
+                return new CustomGifConfig(activity, authHelper,eventSink);
             case Constant.CUSTOM_MOV:
-                return new CustomMovConfig(activity, authHelper);
+                return new CustomMovConfig(activity, authHelper,eventSink);
             case Constant.CUSTOM_PIC:
-                return new CustomPicConfig(activity, authHelper);
+                return new CustomPicConfig(activity, authHelper,eventSink);
             case Constant.FULL_PORT_PRIVACY:
-                return new FullPortPrivacyConfig(activity, authHelper);
+                return new FullPortPrivacyConfig(activity, authHelper,eventSink);
             case Constant.FULL_LAND_PRIVACY:
-                return new FullLandPrivacyConfig(activity, authHelper);
+                return new FullLandPrivacyConfig(activity, authHelper,eventSink);
             default:
                 return null;
         }
     }
 
-    public BaseUIConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
+    public BaseUIConfig(Activity activity, PhoneNumberAuthHelper authHelper,EventChannel.EventSink eventSink) {
         mActivity = activity;
         mContext = activity.getApplicationContext();
         mAuthHelper = authHelper;
+        fEventSink = eventSink;
     }
 
     protected View initSwitchView(int marginTop) {

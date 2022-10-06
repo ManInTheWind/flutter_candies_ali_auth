@@ -14,12 +14,14 @@ import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 
+import io.flutter.plugin.common.EventChannel;
+
 public class FullLandPrivacyConfig extends BaseUIConfig {
 
     private int mOldScreenOrientation;
 
-    public FullLandPrivacyConfig(Activity activity, PhoneNumberAuthHelper authHelper) {
-        super(activity, authHelper);
+    public FullLandPrivacyConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
+        super(activity, authHelper,eventSink);
     }
 
     @Override
