@@ -39,15 +39,6 @@ public class DialogBottomConfig extends BaseUIConfig {
         mAuthHelper.addAuthRegistViewConfig("switch_msg", new AuthRegisterViewConfig.Builder()
                 .setView(initSwitchView(unit * 6))
                 .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
-//                .setCustomInterface(new CustomInterface() {
-//                    @Override
-//                    public void onClick(Context context) {
-//                        Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
-//                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
-//                        mActivity.startActivityForResult(pIntent, 1002);
-//                        mAuthHelper.quitLoginPage();
-//                    }
-//                })
                 .build());
         mAuthHelper.addAuthRegisterXmlConfig(new AuthRegisterXmlConfig.Builder()
                 .setLayout(R.layout.custom_port_dialog_action_bar, new AbstractPnsViewDelegate() {
@@ -93,7 +84,7 @@ public class DialogBottomConfig extends BaseUIConfig {
                 .setLogBtnBackgroundPath("login_btn_bg")
 
                 .setPageBackgroundPath("dialog_page_background")
-                .setAuthPageActIn("in_activity", "out_activity")
+                .setAuthPageActIn(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
                 .setAuthPageActOut("in_activity", "out_activity")
                 .setVendorPrivacyPrefix("《")
                 .setVendorPrivacySuffix("》")

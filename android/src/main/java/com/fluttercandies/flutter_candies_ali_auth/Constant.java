@@ -8,21 +8,25 @@ public class Constant {
      */
     public static final int FULL_PORT = 0;
     /**
-     * 全屏（横屏）
+     * 底部弹窗
      */
-    public static final int FULL_LAND = 1;
+    public static final int DIALOG_BOTTOM = 1;
     /**
      * 弹窗（竖屏）
      */
     public static final int DIALOG_PORT = 2;
+
+
+    /**
+     * 全屏（横屏）
+     */
+    public static final int FULL_LAND = 1;
+
     /**
      * "弹窗（横屏）
      */
     public static final int DIALOG_LAND = 3;
-    /**
-     * 底部弹窗
-     */
-    public static final int DIALOG_BOTTOM = 4;
+
     /**
      * 自定义View
      */

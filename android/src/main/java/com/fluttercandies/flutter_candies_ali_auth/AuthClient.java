@@ -41,7 +41,7 @@ import io.flutter.plugin.common.MethodChannel;
 public class AuthClient {
     private static final String TAG = AuthClient.class.getSimpleName();
 
-    private PhoneNumberAuthHelper mPhoneNumberAuthHelper;
+    private PhoneNumberAuthHelper mAuthHelper;
     private TokenResultListener tokenResultListener;
 
     public Activity mActivity;
@@ -123,13 +123,13 @@ public class AuthClient {
                     eventSink.success(authResponseModel.toJson());
                     e.printStackTrace();
                 }
-                mPhoneNumberAuthHelper.setAuthListener(null);
+                mAuthHelper.setAuthListener(null);
             }
         };
 
-        mPhoneNumberAuthHelper = PhoneNumberAuthHelper.getInstance(mContext,tokenResultListener);
-        mPhoneNumberAuthHelper.getReporter().setLoggerEnable(true);
-        mPhoneNumberAuthHelper.setAuthSDKInfo(authModel.androidSdk);
+        mAuthHelper = PhoneNumberAuthHelper.getInstance(mContext,tokenResultListener);
+        mAuthHelper.getReporter().setLoggerEnable(true);
+        mAuthHelper.setAuthSDKInfo(authModel.androidSdk);
         checkEnv();
     }
 
@@ -137,12 +137,12 @@ public class AuthClient {
      * 检查环境是否可用
      */
     public void checkEnv(){
-        if(Objects.isNull(mPhoneNumberAuthHelper)){
+        if(Objects.isNull(mAuthHelper)){
             AuthResponseModel authResponseModel = AuthResponseModel.initFailed(initFailedMsg);
             eventSink.success(authResponseModel.toJson());
             return;
         }
-        mPhoneNumberAuthHelper.checkEnvAvailable(PhoneNumberAuthHelper.SERVICE_TYPE_AUTH);
+        mAuthHelper.checkEnvAvailable(PhoneNumberAuthHelper.SERVICE_TYPE_AUTH);
     }
     /**
      * 在不是一进app就需要登录的场景 建议调用此接口 加速拉起一键登录页面
@@ -151,13 +151,13 @@ public class AuthClient {
      * @param
      */
     public void accelerateLoginPage(){
-        if(Objects.isNull(mPhoneNumberAuthHelper)){
+        if(Objects.isNull(mAuthHelper)){
             AuthResponseModel authResponseModel = AuthResponseModel.initFailed(initFailedMsg);
             eventSink.success(authResponseModel.toJson());
             return;
         }
         int timeout = 5000;
-        mPhoneNumberAuthHelper.accelerateLoginPage(timeout, new PreLoginResultListener() {
+        mAuthHelper.accelerateLoginPage(timeout, new PreLoginResultListener() {
             @Override
             public void onTokenSuccess(String s) {
                 Log.i(TAG, "预取号失败：" + s);
@@ -191,7 +191,7 @@ public class AuthClient {
     }
 
     public void getLoginToken(){
-        baseUIConfig = BaseUIConfig.init(0,mActivity,mPhoneNumberAuthHelper,eventSink);
+        baseUIConfig = BaseUIConfig.init(0,mActivity,mAuthHelper,eventSink);
         assert baseUIConfig != null;
         baseUIConfig.configAuthPage();
         tokenResultListener = new TokenResultListener() {
@@ -204,8 +204,8 @@ public class AuthClient {
                     AuthResponseModel authResponseModel = AuthResponseModel.fromTokenRect(tokenRet);
                     eventSink.success(authResponseModel.toJson());
                     if(ResultCode.CODE_SUCCESS.equals(tokenRet.getCode())){
-                        mPhoneNumberAuthHelper.quitLoginPage();
-                        mPhoneNumberAuthHelper.setAuthListener(null);
+                        mAuthHelper.quitLoginPage();
+                        mAuthHelper.setAuthListener(null);
                     }
                     Log.i(TAG,"tokenRet:"+tokenRet);
                 }catch (Exception e){
@@ -223,10 +223,70 @@ public class AuthClient {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                mPhoneNumberAuthHelper.setAuthListener(null);
+                mAuthHelper.setAuthListener(null);
             }
         };
-        mPhoneNumberAuthHelper.setAuthListener(tokenResultListener);
-        mPhoneNumberAuthHelper.getLoginToken(mContext,5000);
+        mAuthHelper.setAuthListener(tokenResultListener);
+        mAuthHelper.getLoginToken(mContext,5000);
+    }
+
+    public void getLoginToken(Object arguments){
+        try {
+            authModel = AuthModel.fromJson(arguments);
+        }catch (Exception e){
+            AuthResponseModel authResponseModel = AuthResponseModel.initFailed(errorArgumentsMsg);
+            eventSink.success(authResponseModel.toJson());
+        }
+
+        baseUIConfig = BaseUIConfig.init(authModel.authUIStyle,mActivity,mAuthHelper,eventSink);
+        assert baseUIConfig != null;
+        baseUIConfig.configAuthPage();
+        tokenResultListener = new TokenResultListener() {
+            @Override
+            public void onTokenSuccess(String s) {
+                // Log.w(TAG,"获取Token成功:"+s);
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TokenRet tokenRet = null;
+                        try {
+                            tokenRet = TokenRet.fromJson(s);
+
+                            AuthResponseModel authResponseModel = AuthResponseModel.fromTokenRect(tokenRet);
+                            eventSink.success(authResponseModel.toJson());
+                            if(ResultCode.CODE_SUCCESS.equals(tokenRet.getCode())){
+                                mAuthHelper.quitLoginPage();
+                                mAuthHelper.setAuthListener(null);
+                                clearCached();
+                            }
+                            Log.i(TAG,"tokenRet:"+tokenRet);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onTokenFailed(String s) {
+                Log.w(TAG,"获取Token失败:"+s);
+                TokenRet tokenRet = null;
+                try {
+                    tokenRet = TokenRet.fromJson(s);
+                    Log.i(TAG,"tokenRet:"+tokenRet);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                mAuthHelper.setAuthListener(null);
+                clearCached();
+            }
+        };
+        mAuthHelper.setAuthListener(tokenResultListener);
+        mAuthHelper.getLoginToken(mContext,5000);
+    }
+
+    public void clearCached(){
+        mAuthHelper.removeAuthRegisterXmlConfig();
+        mAuthHelper.removeAuthRegisterViewConfig();
     }
 }

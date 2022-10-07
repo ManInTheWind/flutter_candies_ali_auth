@@ -6,10 +6,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -29,13 +31,13 @@ import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import java.util.Objects;
 
 /** FlutterCandiesAliAuthPlugin */
-public class FlutterCandiesAliAuthPlugin extends FlutterActivity implements FlutterPlugin, MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
+public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
+        MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
 
   public static final String TAG = FlutterCandiesAliAuthPlugin.class.getSimpleName();
 
 
   private AuthClient authClient;
-  private AuthModel authModel;
 
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
@@ -45,7 +47,7 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity implements Flut
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-
+    Log.i(TAG,"onAttachedToEngine");
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
     authClient = new AuthClient();
     EventChannel auth_event = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "auth_event");
@@ -81,7 +83,7 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity implements Flut
         authClient.getLoginToken();
         break;
       case "loginWithConfig":
-        authClient.getLoginToken();
+        authClient.getLoginToken(call.arguments);
         break;
       default:
         result.notImplemented();
@@ -96,27 +98,35 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity implements Flut
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    Log.i(TAG,"onDetachedFromEngine");
+
     channel.setMethodCallHandler(null);
   }
 
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+    Log.i(TAG,"onAttachedToActivity");
+
+    System.out.println(binding.getActivity().getClass());
+
     authClient.setActivity(binding.getActivity());
   }
 
   @Override
   public void onDetachedFromActivityForConfigChanges() {
-
+    Log.i(TAG,"onDetachedFromActivityForConfigChanges");
   }
 
   @Override
   public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
     //authClient.setActivity(binding.getActivity());
+    Log.i(TAG,"onReattachedToActivityForConfigChanges");
+
   }
 
   @Override
   public void onDetachedFromActivity() {
-
+    Log.i(TAG,"onDetachedFromActivity");
   }
 
   @Override
@@ -132,4 +142,45 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity implements Flut
       authClient.eventSink = null;
     }
   }
+
+//  @Override
+//  protected void onCreate(@Nullable Bundle savedInstanceState) {
+//    super.onCreate(savedInstanceState);
+//    Log.i(TAG,"onCreate");
+//
+//  }
+//
+//  @Override
+//  protected void onStart() {
+//    super.onStart();
+//    Log.i(TAG,"onStart");
+//
+//  }
+//
+//  @Override
+//  protected void onResume() {
+//    super.onResume();
+//    Log.i(TAG,"onResume");
+//
+//  }
+//
+//  @Override
+//  protected void onPause() {
+//    super.onPause();
+//    Log.i(TAG,"onPause");
+//
+//  }
+//
+//  @Override
+//  protected void onStop() {
+//    super.onStop();
+//    Log.i(TAG,"onStop");
+//
+//  }
+//
+//  @Override
+//  protected void onDestroy() {
+//    super.onDestroy();
+//    Log.i(TAG,"onDestroy");
+//  }
 }

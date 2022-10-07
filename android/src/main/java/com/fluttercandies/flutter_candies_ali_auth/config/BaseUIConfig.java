@@ -30,28 +30,32 @@ public abstract class BaseUIConfig {
         switch (type) {
             case Constant.FULL_PORT:
                 return new FullPortConfig(activity, authHelper,eventSink);
-            case Constant.FULL_LAND:
-                return new FullLandConfig(activity, authHelper,eventSink);
+            case Constant.DIALOG_BOTTOM:
+                DialogBottomConfig dialog = new DialogBottomConfig(activity, authHelper,eventSink);
+                dialog.configAuthPage();
+                return dialog;
             case Constant.DIALOG_PORT:
                 return new DialogPortConfig(activity, authHelper,eventSink);
-            case Constant.DIALOG_LAND:
-                return new DialogLandConfig(activity, authHelper,eventSink);
-            case Constant.DIALOG_BOTTOM:
-                return new DialogBottomConfig(activity, authHelper,eventSink);
-            case Constant.CUSTOM_VIEW:
-                return new CustomViewConfig(activity, authHelper,eventSink);
-            case Constant.CUSTOM_XML:
-                return new CustomXmlConfig(activity, authHelper,eventSink);
-            case Constant.CUSTOM_GIF:
-                return new CustomGifConfig(activity, authHelper,eventSink);
-            case Constant.CUSTOM_MOV:
-                return new CustomMovConfig(activity, authHelper,eventSink);
-            case Constant.CUSTOM_PIC:
-                return new CustomPicConfig(activity, authHelper,eventSink);
-            case Constant.FULL_PORT_PRIVACY:
-                return new FullPortPrivacyConfig(activity, authHelper,eventSink);
-            case Constant.FULL_LAND_PRIVACY:
-                return new FullLandPrivacyConfig(activity, authHelper,eventSink);
+//            case Constant.FULL_LAND:
+//                return new FullLandConfig(activity, authHelper,eventSink);
+//
+//            case Constant.DIALOG_LAND:
+//                return new DialogLandConfig(activity, authHelper,eventSink);
+//
+//            case Constant.CUSTOM_VIEW:
+//                return new CustomViewConfig(activity, authHelper,eventSink);
+//            case Constant.CUSTOM_XML:
+//                return new CustomXmlConfig(activity, authHelper,eventSink);
+//            case Constant.CUSTOM_GIF:
+//                return new CustomGifConfig(activity, authHelper,eventSink);
+//            case Constant.CUSTOM_MOV:
+//                return new CustomMovConfig(activity, authHelper,eventSink);
+//            case Constant.CUSTOM_PIC:
+//                return new CustomPicConfig(activity, authHelper,eventSink);
+//            case Constant.FULL_PORT_PRIVACY:
+//                return new FullPortPrivacyConfig(activity, authHelper,eventSink);
+//            case Constant.FULL_LAND_PRIVACY:
+//                return new FullLandPrivacyConfig(activity, authHelper,eventSink);
             default:
                 return null;
         }
