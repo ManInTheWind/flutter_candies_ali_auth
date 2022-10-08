@@ -5,7 +5,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 
-import com.fluttercandies.flutter_candies_ali_auth.R;
+//import com.fluttercandies.flutter_candies_ali_auth.R;
+import com.mobile.auth.R;
 import com.fluttercandies.flutter_candies_ali_auth.helper.CustomAuthUIControlClickListener;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
@@ -17,7 +18,7 @@ public class FullPortConfig extends BaseUIConfig {
     private final String TAG = "全屏竖屏样式";
 
     public FullPortConfig(Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
-        super(activity, authHelper,eventSink);
+        super(activity, authHelper, eventSink);
     }
 
     @Override
@@ -49,33 +50,41 @@ public class FullPortConfig extends BaseUIConfig {
         }
         updateScreenSize(authPageOrientation);
         mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
-                .setAppPrivacyOne("《自定义隐私协议》", "https://test.h5.app.tbmao.com/user")
-                .setAppPrivacyTwo("《百度》", "https://www.baidu.com")
-                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
-                //隐藏默认切换其他登录方式
-                .setSwitchAccHidden(true)
-                //隐藏默认Toast
-                .setLogBtnToastHidden(true)
                 //沉浸式状态栏
                 .setNavColor(Color.parseColor("#026ED2"))
                 .setStatusBarColor(Color.parseColor("#026ED2"))
                 .setWebViewStatusBarColor(Color.parseColor("#026ED2"))
-
-
-                .setLightColor(false)
-                .setWebNavTextSizeDp(20)
-                //图片或者xml的传参方式为不包含后缀名的全称 需要文件需要放在drawable或drawable-xxx目录下 in_activity.xml, mytel_app_launcher.png
-                .setAuthPageActIn(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
-                .setAuthPageActOut("in_activity", "out_activity")
-                .setProtocolShakePath("protocol_shake")
-                .setVendorPrivacyPrefix("《")
-                .setVendorPrivacySuffix("》")
-                .setPageBackgroundPath("page_background_color")
-                .setLogoImgPath("mytel_app_launcher")
-                //一键登录按钮三种状态背景示例login_btn_bg.xml
-                .setLogBtnBackgroundPath("login_btn_bg")
-                .setScreenOrientation(authPageOrientation)
+                .setAuthPageActIn("out_activity", "out_activity")
+                .setAuthPageActOut("out_activity", "out_activity")
                 .create());
+//        mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
+//                .setAppPrivacyOne("《自定义隐私协议》", "https://test.h5.app.tbmao.com/user")
+//                .setAppPrivacyTwo("《百度》", "https://www.baidu.com")
+//                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
+//                //隐藏默认切换其他登录方式
+//                .setSwitchAccHidden(true)
+//                //隐藏默认Toast
+//                .setLogBtnToastHidden(true)
+//                //沉浸式状态栏
+//                .setNavColor(Color.parseColor("#026ED2"))
+//                .setStatusBarColor(Color.parseColor("#026ED2"))
+//                .setWebViewStatusBarColor(Color.parseColor("#026ED2"))
+//
+//
+//                .setLightColor(false)
+//                .setWebNavTextSizeDp(20)
+//                //图片或者xml的传参方式为不包含后缀名的全称 需要文件需要放在drawable或drawable-xxx目录下 in_activity.xml, mytel_app_launcher.png
+//                .setAuthPageActIn("out_activity", "out_activity")
+//                .setAuthPageActOut("out_activity", "out_activity")
+//                .setProtocolShakePath("protocol_shake")
+//                .setVendorPrivacyPrefix("《")
+//                .setVendorPrivacySuffix("》")
+//                .setPageBackgroundPath("page_background_color")
+//                .setLogoImgPath("mytel_app_launcher")
+//                //一键登录按钮三种状态背景示例login_btn_bg.xml
+//                .setLogBtnBackgroundPath("login_btn_bg")
+//                .setScreenOrientation(authPageOrientation)
+//                .create());
     }
 
 

@@ -32,7 +32,7 @@ public abstract class BaseUIConfig {
                 return new FullPortConfig(activity, authHelper,eventSink);
             case Constant.DIALOG_BOTTOM:
                 DialogBottomConfig dialog = new DialogBottomConfig(activity, authHelper,eventSink);
-                dialog.configAuthPage();
+                //dialog.configAuthPage();
                 return dialog;
             case Constant.DIALOG_PORT:
                 return new DialogPortConfig(activity, authHelper,eventSink);

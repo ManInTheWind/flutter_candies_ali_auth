@@ -2,29 +2,18 @@ package com.fluttercandies.flutter_candies_ali_auth;
 
 import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel.MSG_GET_MASK_SUCCESS;
 import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel.errorArgumentsMsg;
-import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel.failedListeningMsg;
 import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel.initFailedMsg;
 import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel.preLoginSuccessMsg;
-import static com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils.dp2px;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.os.Build;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.alibaba.fastjson2.JSON;
 import com.fluttercandies.flutter_candies_ali_auth.config.BaseUIConfig;
 import com.fluttercandies.flutter_candies_ali_auth.model.AuthModel;
 import com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel;
-import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.CustomInterface;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
@@ -61,7 +50,11 @@ public class AuthClient {
 
     public void setActivity(Activity mActivity) {
         this.mActivity = mActivity;
-        this.mContext = mActivity.getApplicationContext();
+        this.mContext = mActivity.getBaseContext();
+    }
+
+    public void setContext(Context context){
+        this.mContext = context;
     }
 
     public void setEventSink(EventChannel.EventSink eventSink) {
@@ -231,16 +224,25 @@ public class AuthClient {
     }
 
     public void getLoginToken(Object arguments){
+
+
         try {
             authModel = AuthModel.fromJson(arguments);
         }catch (Exception e){
             AuthResponseModel authResponseModel = AuthResponseModel.initFailed(errorArgumentsMsg);
             eventSink.success(authResponseModel.toJson());
         }
-
+        if(authModel.authUIStyle == 2){
+            Intent intent = new Intent(mContext, CalculationActivity.class);
+            mActivity.startActivity(intent);
+            return;
+        }
         baseUIConfig = BaseUIConfig.init(authModel.authUIStyle,mActivity,mAuthHelper,eventSink);
+
         assert baseUIConfig != null;
+
         baseUIConfig.configAuthPage();
+
         tokenResultListener = new TokenResultListener() {
             @Override
             public void onTokenSuccess(String s) {

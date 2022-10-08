@@ -11,16 +11,18 @@ import java.util.Map;
 public class AuthModel {
    public String androidSdk;
    public Integer authUIStyle;
-   //public AuthUIConfig authUIConfig;
+   public AuthUIModel authUIModel;
 
    @NonNull
    static public AuthModel fromJson(Object params){
-      JSONObject o = (JSONObject) JSON.toJSON(params);
-      Integer authUIStyle = (Integer) o.get("authUIStyle");
+      JSONObject json = (JSONObject) JSON.toJSON(params);
+      Integer authUIStyle = (Integer) json.get("authUIStyle");
       //AuthUIStyle authUIStyle  = AuthUIStyle.values()[authUIStyleIndex];
       AuthModel authModel = new AuthModel();
-      authModel.setAndroidSdk(o.getString("androidSdk"));
+      authModel.setAndroidSdk(json.getString("androidSdk"));
       authModel.setAuthUIStyle(authUIStyle);
+      AuthUIModel  mAuthUIModel = JSON.to(AuthUIModel.class, json);
+      authModel.setAuthUIModel(mAuthUIModel);
       return authModel;
    }
 
@@ -30,6 +32,22 @@ public class AuthModel {
 
    public void setAuthUIStyle(Integer authUIStyle) {
       this.authUIStyle = authUIStyle;
+   }
+
+   public void setAuthUIModel(AuthUIModel authUIModel) {
+      this.authUIModel = authUIModel;
+   }
+
+   public String getAndroidSdk() {
+      return androidSdk;
+   }
+
+   public Integer getAuthUIStyle() {
+      return authUIStyle;
+   }
+
+   public AuthUIModel getAuthUIModel() {
+      return authUIModel;
    }
 
    @NonNull

@@ -63,4 +63,24 @@ public class Constant {
     public static final String LOGIN_TYPE = "login_type";
     public static final int LOGIN = 1;
     public static final int LOGIN_DELAY = 2;
+
+//    public static  Font_28: Int = 28
+//    let Font_24: Int = 24
+//    let Font_20: Int = 20
+//    let Font_17: Int = 17
+//    let Font_16: Int = 16
+//    let Font_14: Int = 14
+//    let Font_12: Int = 12
+//
+//    let PF_Light: String = "PingFangSC-Light"
+//    let PF_Regular: String = "PingFangSC-Regular"
+//    let PF_Bold: String = "PingFangSC-Semibold"
+//
+//    let kScreen_Width: CGFloat = UIScreen.main.bounds.width
+//    let kScreen_Height: CGFloat = UIScreen.main.bounds.height
+//
+//    let kLogoOffset: Float = 80
+//    let kLogoSize: Float = 100
+//    let kPadding: Float = 8.0
+//    let kBottomInset: Float = 32
 }

@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
+        <item name="android:windowAnimationStyle">@style/activityAnim</item>
     </style>
 
     <style name="AppTheme.Normal" parent="AppTheme">
@@ -13,6 +14,11 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!--<item name="windowNoTitle">true</item>-->
+    </style>
+
+    <style name="activityAnim" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/in_activity</item>
+        <item name="android:activityOpenExitAnimation">@anim/out_activity</item>
     </style>
 
 </resources>

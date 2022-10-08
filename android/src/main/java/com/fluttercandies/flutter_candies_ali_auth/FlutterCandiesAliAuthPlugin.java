@@ -28,10 +28,11 @@ import com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 /** FlutterCandiesAliAuthPlugin */
-public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
+public class FlutterCandiesAliAuthPlugin extends FlutterActivity  implements FlutterPlugin,
         MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
 
   public static final String TAG = FlutterCandiesAliAuthPlugin.class.getSimpleName();
@@ -48,11 +49,18 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     Log.i(TAG,"onAttachedToEngine");
+
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
+
     authClient = new AuthClient();
+
     EventChannel auth_event = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "auth_event");
+
     auth_event.setStreamHandler(this);
+
     channel.setMethodCallHandler(this);
+
+    authClient.setContext(flutterPluginBinding.getApplicationContext());
   }
 
   @Override
@@ -105,11 +113,14 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-    Log.i(TAG,"onAttachedToActivity");
 
-    System.out.println(binding.getActivity().getClass());
+    Log.i(TAG,"onAttachedToActivity:"+binding.getActivity().getClass().getSimpleName());
 
-    authClient.setActivity(binding.getActivity());
+    Log.i(TAG,"orientation:"+binding.getActivity().getResources().getConfiguration().orientation);
+
+    WeakReference<Activity> activityWeakReference = new WeakReference<>(binding.getActivity());
+
+    authClient.setActivity(activityWeakReference.get());
   }
 
   @Override
