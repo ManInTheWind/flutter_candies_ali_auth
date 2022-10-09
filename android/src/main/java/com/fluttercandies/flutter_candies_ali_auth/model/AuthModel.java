@@ -23,6 +23,7 @@ public class AuthModel {
       authModel.setAuthUIStyle(authUIStyle);
       AuthUIModel  mAuthUIModel = JSON.to(AuthUIModel.class, json);
       authModel.setAuthUIModel(mAuthUIModel);
+
       return authModel;
    }
 
@@ -56,6 +57,7 @@ public class AuthModel {
       return "AuthModel{" +
               "androidSdk='" + androidSdk + '\'' +
               ", authUIStyle=" + authUIStyle +
+              ", authUIModel=" + authUIModel +
               '}';
    }
 }

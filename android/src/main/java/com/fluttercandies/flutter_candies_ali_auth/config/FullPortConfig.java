@@ -5,8 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 
-//import com.fluttercandies.flutter_candies_ali_auth.R;
-import com.mobile.auth.R;
+import com.fluttercandies.flutter_candies_ali_auth.R;
 import com.fluttercandies.flutter_candies_ali_auth.helper.CustomAuthUIControlClickListener;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
@@ -54,8 +53,8 @@ public class FullPortConfig extends BaseUIConfig {
                 .setNavColor(Color.parseColor("#026ED2"))
                 .setStatusBarColor(Color.parseColor("#026ED2"))
                 .setWebViewStatusBarColor(Color.parseColor("#026ED2"))
-                .setAuthPageActIn("out_activity", "out_activity")
-                .setAuthPageActOut("out_activity", "out_activity")
+                .setAuthPageActIn(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
+                .setAuthPageActOut(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
                 .create());
 //        mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
 //                .setAppPrivacyOne("《自定义隐私协议》", "https://test.h5.app.tbmao.com/user")

@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import com.fluttercandies.flutter_candies_ali_auth.config.BaseUIConfig;
@@ -225,18 +226,17 @@ public class AuthClient {
 
     public void getLoginToken(Object arguments){
 
-
         try {
             authModel = AuthModel.fromJson(arguments);
         }catch (Exception e){
             AuthResponseModel authResponseModel = AuthResponseModel.initFailed(errorArgumentsMsg);
             eventSink.success(authResponseModel.toJson());
         }
-        if(authModel.authUIStyle == 2){
-            Intent intent = new Intent(mContext, CalculationActivity.class);
-            mActivity.startActivity(intent);
-            return;
-        }
+
+
+
+        Log.i(TAG,"AuthModel:"+authModel);
+
         baseUIConfig = BaseUIConfig.init(authModel.authUIStyle,mActivity,mAuthHelper,eventSink);
 
         assert baseUIConfig != null;
@@ -284,7 +284,10 @@ public class AuthClient {
             }
         };
         mAuthHelper.setAuthListener(tokenResultListener);
-        mAuthHelper.getLoginToken(mContext,5000);
+        mActivity.overridePendingTransition(R.anim.in_activity,0);
+        Intent intent = new Intent(mContext, CalculationActivity.class);
+        CalculationActivity.authHelper = mAuthHelper;
+        mActivity.startActivity(intent);
     }
 
     public void clearCached(){

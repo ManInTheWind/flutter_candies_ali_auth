@@ -1,5 +1,7 @@
 package com.fluttercandies.flutter_candies_ali_auth.model;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 
@@ -143,4 +145,93 @@ public class AuthUIModel {
 
     public Integer privacyOperatorIndex;
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "AuthUIModel{" +
+                "backgroundColor='" + backgroundColor + '\'' +
+                ", backgroundImage='" + backgroundImage + '\'' +
+                ", alertContentViewColor='" + alertContentViewColor + '\'' +
+                ", alertBlurViewColor='" + alertBlurViewColor + '\'' +
+                ", alertBlurViewAlpha=" + alertBlurViewAlpha +
+                ", alertBorderRadius=" + alertBorderRadius +
+                ", alertWindowWidth=" + alertWindowWidth +
+                ", alertWindowHeight=" + alertWindowHeight +
+                ", prefersStatusBarHidden=" + prefersStatusBarHidden +
+                ", navIsHidden=" + navIsHidden +
+                ", navTitle='" + navTitle + '\'' +
+                ", navTitleColor='" + navTitleColor + '\'' +
+                ", navTitleSize=" + navTitleSize +
+                ", navFrameOffsetX=" + navFrameOffsetX +
+                ", navFrameOffsetY=" + navFrameOffsetY +
+                ", navColor='" + navColor + '\'' +
+                ", hideNavBackItem=" + hideNavBackItem +
+                ", navBackImage='" + navBackImage + '\'' +
+                ", navBackButtonOffsetX=" + navBackButtonOffsetX +
+                ", navBackButtonOffsetY=" + navBackButtonOffsetY +
+                ", alertBarIsHidden=" + alertBarIsHidden +
+                ", alertCloseItemIsHidden=" + alertCloseItemIsHidden +
+                ", alertTitleBarColor='" + alertTitleBarColor + '\'' +
+                ", alertTitleText='" + alertTitleText + '\'' +
+                ", alertTitleTextColor='" + alertTitleTextColor + '\'' +
+                ", alertTittleTextSize=" + alertTittleTextSize +
+                ", alertCloseImage='" + alertCloseImage + '\'' +
+                ", alertCloseImageOffsetX=" + alertCloseImageOffsetX +
+                ", alertCloseImageOffsetY=" + alertCloseImageOffsetY +
+                ", logoIsHidden=" + logoIsHidden +
+                ", logoImage='" + logoImage + '\'' +
+                ", logoWidth=" + logoWidth +
+                ", logoHeight=" + logoHeight +
+                ", logoFrameOffsetX=" + logoFrameOffsetX +
+                ", logoFrameOffsetY=" + logoFrameOffsetY +
+                ", sloganIsHidden=" + sloganIsHidden +
+                ", sloganText='" + sloganText + '\'' +
+                ", sloganTextColor='" + sloganTextColor + '\'' +
+                ", sloganTextSize=" + sloganTextSize +
+                ", sloganFrameOffsetX=" + sloganFrameOffsetX +
+                ", sloganFrameOffsetY=" + sloganFrameOffsetY +
+                ", numberColor='" + numberColor + '\'' +
+                ", numberFontSize=" + numberFontSize +
+                ", numberFrameOffsetX=" + numberFrameOffsetX +
+                ", numberFrameOffsetY=" + numberFrameOffsetY +
+                ", loginBtnText='" + loginBtnText + '\'' +
+                ", loginBtnTextColor='" + loginBtnTextColor + '\'' +
+                ", loginBtnTextSize=" + loginBtnTextSize +
+                ", loginBtnNormalImage='" + loginBtnNormalImage + '\'' +
+                ", loginBtnUnableImage='" + loginBtnUnableImage + '\'' +
+                ", loginBtnPressedImage='" + loginBtnPressedImage + '\'' +
+                ", loginBtnFrameOffsetX=" + loginBtnFrameOffsetX +
+                ", loginBtnFrameOffsetY=" + loginBtnFrameOffsetY +
+                ", loginBtnWidth=" + loginBtnWidth +
+                ", loginBtnHeight=" + loginBtnHeight +
+                ", loginBtnLRPadding=" + loginBtnLRPadding +
+                ", changeBtnIsHidden=" + changeBtnIsHidden +
+                ", changeBtnTitle='" + changeBtnTitle + '\'' +
+                ", changeBtnTextColor='" + changeBtnTextColor + '\'' +
+                ", changeBtnTextSize=" + changeBtnTextSize +
+                ", changeBtnFrameOffsetX=" + changeBtnFrameOffsetX +
+                ", changeBtnFrameOffsetY=" + changeBtnFrameOffsetY +
+                ", checkBoxIsChecked=" + checkBoxIsChecked +
+                ", checkBoxIsHidden=" + checkBoxIsHidden +
+                ", checkBoxWH=" + checkBoxWH +
+                ", checkedImage='" + checkedImage + '\'' +
+                ", uncheckImage='" + uncheckImage + '\'' +
+                ", privacyOneName='" + privacyOneName + '\'' +
+                ", privacyOneUrl='" + privacyOneUrl + '\'' +
+                ", privacyTwoName='" + privacyTwoName + '\'' +
+                ", privacyTwoUrl='" + privacyTwoUrl + '\'' +
+                ", privacyThreeName='" + privacyThreeName + '\'' +
+                ", privacyThreeUrl='" + privacyThreeUrl + '\'' +
+                ", privacyFontSize=" + privacyFontSize +
+                ", privacyFontColor='" + privacyFontColor + '\'' +
+                ", privacyFrameOffsetX=" + privacyFrameOffsetX +
+                ", privacyFrameOffsetY=" + privacyFrameOffsetY +
+                ", privacyConnectTexts='" + privacyConnectTexts + '\'' +
+                ", privacyPreText='" + privacyPreText + '\'' +
+                ", privacySufText='" + privacySufText + '\'' +
+                ", privacyOperatorPreText='" + privacyOperatorPreText + '\'' +
+                ", privacyOperatorSufText='" + privacyOperatorSufText + '\'' +
+                ", privacyOperatorIndex=" + privacyOperatorIndex +
+                '}';
+    }
 }

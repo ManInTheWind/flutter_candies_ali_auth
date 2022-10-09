@@ -154,7 +154,13 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity  implements Flu
     }
   }
 
-//  @Override
+  @Override
+  public void onBackPressed() {
+    Log.i(TAG,"onBackPressed");
+    super.onBackPressed();
+  }
+
+  //  @Override
 //  protected void onCreate(@Nullable Bundle savedInstanceState) {
 //    super.onCreate(savedInstanceState);
 //    Log.i(TAG,"onCreate");
