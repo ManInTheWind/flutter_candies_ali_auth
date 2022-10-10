@@ -7,6 +7,7 @@ import android.os.Build;
 import android.view.View;
 
 import com.fluttercandies.flutter_candies_ali_auth.R;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
@@ -14,6 +15,7 @@ import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 import com.nirvana.tools.core.AppUtils;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 public class DialogPortConfig extends BaseUIConfig {
@@ -28,7 +30,7 @@ public class DialogPortConfig extends BaseUIConfig {
     }
 
     @Override
-    public void configAuthPage() {
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
         mAuthHelper.removeAuthRegisterXmlConfig();
         mAuthHelper.removeAuthRegisterViewConfig();
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
@@ -109,9 +111,8 @@ public class DialogPortConfig extends BaseUIConfig {
                 .setSloganTextSizeDp(11)
 
                 .setPageBackgroundPath("dialog_page_background")
-
-                .setAuthPageActIn("in_activity", "out_activity")
-                .setAuthPageActOut("in_activity", "out_activity")
+                .setAuthPageActIn(String.valueOf(R.anim.zoom_in), String.valueOf(R.anim.zoom_out))
+                .setAuthPageActOut(String.valueOf(R.anim.zoom_in), String.valueOf(R.anim.zoom_out))
                 .setVendorPrivacyPrefix("《")
                 .setVendorPrivacySuffix("》")
                 .setDialogWidth(dialogWidth)

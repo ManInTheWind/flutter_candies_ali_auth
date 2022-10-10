@@ -1,8 +1,9 @@
 import 'dart:ui';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'part_ui_config.g.dart';
+part '../generated/part_ui_config.g.dart';
 
 typedef MapWithStringKey = Map<String, dynamic>;
 
@@ -20,6 +21,7 @@ extension HexColor on Color {
 }
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class NavConfig {
   bool? navIsHidden;
   String? navTitle;
@@ -55,6 +57,7 @@ class NavConfig {
 
 //alert title bar 设置 仅弹窗生效
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class AlertTitleBarConfig {
   bool? alertBarIsHidden;
   bool? alertCloseItemIsHidden;
@@ -85,6 +88,7 @@ class AlertTitleBarConfig {
 
 //logo设置
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class LogoConfig {
   bool? logoIsHidden; //默认显示
   String? logoImage;
@@ -102,11 +106,13 @@ class LogoConfig {
     this.logoFrameOffsetX,
     this.logoFrameOffsetY,
   });
+
   MapWithStringKey toJson() => _$LogoConfigToJson(this);
 }
 
 //slogan设置
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class SloganConfig {
   bool? sloganIsHidden;
   String? sloganText;
@@ -130,6 +136,7 @@ class SloganConfig {
 
 //phone number设置
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class PhoneNumberConfig {
   String? numberColor;
   int? numberFontSize;
@@ -149,6 +156,7 @@ class PhoneNumberConfig {
 
 //login button设置
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class LoginButtonConfig {
   String? loginBtnText;
   String? loginBtnTextColor;
@@ -183,6 +191,7 @@ class LoginButtonConfig {
 
 // change button 设置
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class ChangeButtonConfig {
   bool? changeBtnIsHidden;
   String? changeBtnTitle;
@@ -205,6 +214,7 @@ class ChangeButtonConfig {
 
 //check box 设置
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class CheckBoxConfig {
   bool? checkBoxIsChecked;
   bool? checkBoxIsHidden;
@@ -224,6 +234,7 @@ class CheckBoxConfig {
 }
 
 @JsonSerializable(createFactory: false, includeIfNull: false)
+@CopyWith(skipFields: true, copyWithNull: false)
 class PrivacyConfig {
   String? privacyOneName;
   String? privacyOneUrl;

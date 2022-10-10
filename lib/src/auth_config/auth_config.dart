@@ -1,6 +1,9 @@
-import 'auth_ui_config.dart';
-import 'part_ui_config.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:flutter_candies_ali_auth/flutter_candies_ali_auth.dart';
 
+part '../generated/auth_config.g.dart';
+
+@CopyWith(skipFields: true, copyWithNull: false)
 class AuthConfig {
   final String iosSdk;
   final String androidSdk;
@@ -25,17 +28,17 @@ class AuthConfig {
     return json;
   }
 
-  AuthConfig copyWith({
-    String? iosSdk,
-    String? androidSdk,
-    AuthUIStyle? authUIStyle,
-    AuthUIConfig? authUIConfig,
-  }) {
-    return AuthConfig(
-      iosSdk: iosSdk ?? this.iosSdk,
-      androidSdk: androidSdk ?? this.androidSdk,
-      authUIStyle: authUIStyle ?? this.authUIStyle,
-      authUIConfig: authUIConfig ?? this.authUIConfig,
-    );
-  }
+  // AuthConfig copyWith({
+  //   String? otherIosSdk,
+  //   String? otherAndroidSdk,
+  //   AuthUIStyle? otherAuthUIStyle,
+  //   AuthUIConfig? otherAuthUIConfig,
+  // }) {
+  //   return AuthConfig(
+  //     iosSdk: otherIosSdk ?? iosSdk,
+  //     androidSdk: otherAndroidSdk ?? androidSdk,
+  //     authUIStyle: otherAuthUIStyle ?? authUIStyle,
+  //     authUIConfig: otherAuthUIConfig ?? authUIConfig,
+  //   );
+  // }
 }

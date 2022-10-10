@@ -5,6 +5,8 @@ import static com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseMode
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.flutter.FlutterInjector;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -28,11 +31,16 @@ import com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /** FlutterCandiesAliAuthPlugin */
-public class FlutterCandiesAliAuthPlugin extends FlutterActivity  implements FlutterPlugin,
+public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
         MethodCallHandler, ActivityAware, EventChannel.StreamHandler {
 
   public static final String TAG = FlutterCandiesAliAuthPlugin.class.getSimpleName();
@@ -56,12 +64,16 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity  implements Flu
 
     EventChannel auth_event = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "auth_event");
 
+    authClient.setFlutterPluginBinding(flutterPluginBinding);
+
     auth_event.setStreamHandler(this);
 
     channel.setMethodCallHandler(this);
 
     authClient.setContext(flutterPluginBinding.getApplicationContext());
   }
+
+
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
@@ -109,16 +121,18 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity  implements Flu
     Log.i(TAG,"onDetachedFromEngine");
 
     channel.setMethodCallHandler(null);
+
+    authClient.setFlutterPluginBinding(null);
   }
 
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-
     Log.i(TAG,"onAttachedToActivity:"+binding.getActivity().getClass().getSimpleName());
 
     Log.i(TAG,"orientation:"+binding.getActivity().getResources().getConfiguration().orientation);
 
     WeakReference<Activity> activityWeakReference = new WeakReference<>(binding.getActivity());
+
 
     authClient.setActivity(activityWeakReference.get());
   }
@@ -154,11 +168,8 @@ public class FlutterCandiesAliAuthPlugin extends FlutterActivity  implements Flu
     }
   }
 
-  @Override
-  public void onBackPressed() {
-    Log.i(TAG,"onBackPressed");
-    super.onBackPressed();
-  }
+
+
 
   //  @Override
 //  protected void onCreate(@Nullable Bundle savedInstanceState) {

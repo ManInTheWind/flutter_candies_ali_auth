@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.fluttercandies.flutter_candies_ali_auth.Constant;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import static com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils.dp2px;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 
@@ -24,38 +26,16 @@ public abstract class BaseUIConfig {
     public PhoneNumberAuthHelper mAuthHelper;
     public int mScreenWidthDp;
     public int mScreenHeightDp;
-    public EventChannel.EventSink fEventSink;
+    public EventChannel.EventSink mEventSink;
 
     public static BaseUIConfig init(int type, Activity activity, PhoneNumberAuthHelper authHelper, EventChannel.EventSink eventSink) {
         switch (type) {
             case Constant.FULL_PORT:
                 return new FullPortConfig(activity, authHelper,eventSink);
             case Constant.DIALOG_BOTTOM:
-                DialogBottomConfig dialog = new DialogBottomConfig(activity, authHelper,eventSink);
-                //dialog.configAuthPage();
-                return dialog;
+                return new DialogBottomConfig(activity, authHelper,eventSink);
             case Constant.DIALOG_PORT:
                 return new DialogPortConfig(activity, authHelper,eventSink);
-//            case Constant.FULL_LAND:
-//                return new FullLandConfig(activity, authHelper,eventSink);
-//
-//            case Constant.DIALOG_LAND:
-//                return new DialogLandConfig(activity, authHelper,eventSink);
-//
-//            case Constant.CUSTOM_VIEW:
-//                return new CustomViewConfig(activity, authHelper,eventSink);
-//            case Constant.CUSTOM_XML:
-//                return new CustomXmlConfig(activity, authHelper,eventSink);
-//            case Constant.CUSTOM_GIF:
-//                return new CustomGifConfig(activity, authHelper,eventSink);
-//            case Constant.CUSTOM_MOV:
-//                return new CustomMovConfig(activity, authHelper,eventSink);
-//            case Constant.CUSTOM_PIC:
-//                return new CustomPicConfig(activity, authHelper,eventSink);
-//            case Constant.FULL_PORT_PRIVACY:
-//                return new FullPortPrivacyConfig(activity, authHelper,eventSink);
-//            case Constant.FULL_LAND_PRIVACY:
-//                return new FullLandPrivacyConfig(activity, authHelper,eventSink);
             default:
                 return null;
         }
@@ -65,7 +45,7 @@ public abstract class BaseUIConfig {
         mActivity = activity;
         mContext = activity.getApplicationContext();
         mAuthHelper = authHelper;
-        fEventSink = eventSink;
+        mEventSink = eventSink;
     }
 
     protected View initSwitchView(int marginTop) {
@@ -113,7 +93,7 @@ public abstract class BaseUIConfig {
         }
     }
 
-    public abstract void configAuthPage();
+    public abstract void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding,AuthUIModel authUIModel);
 
     /**
      *  在横屏APP弹竖屏一键登录页面或者竖屏APP弹横屏授权页时处理特殊逻辑

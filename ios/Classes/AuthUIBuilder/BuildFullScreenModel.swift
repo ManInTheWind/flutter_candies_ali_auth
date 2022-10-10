@@ -242,7 +242,7 @@ extension AuthUIBuilder {
 
         model.privacyOperatorSufText = config.privacyOperatorSufText ?? "》"
 
-        model.privacyPreText = config.privacyPreText ?? "已同意"
+        model.privacyPreText = config.privacyPreText ?? "已阅读并同意"
 
         model.privacyColors = [UIColor.darkGray, config.privacyFontColor?.uicolor() ?? UIColor.systemBlue]
 

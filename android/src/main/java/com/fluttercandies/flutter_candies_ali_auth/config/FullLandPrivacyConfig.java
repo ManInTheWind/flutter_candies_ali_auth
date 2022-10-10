@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.fluttercandies.flutter_candies_ali_auth.R;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 public class FullLandPrivacyConfig extends BaseUIConfig {
@@ -25,7 +27,7 @@ public class FullLandPrivacyConfig extends BaseUIConfig {
     }
 
     @Override
-    public void configAuthPage() {
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
         mAuthHelper.removeAuthRegisterXmlConfig();
         mAuthHelper.removeAuthRegisterViewConfig();
 
@@ -64,7 +66,7 @@ public class FullLandPrivacyConfig extends BaseUIConfig {
                 .setCheckedImgPath("checked")
                 //设置字体大小，以Dp为单位，不同于Sp，不会随着系统字体变化而变化
                 .setNumberSizeDp(35)
-                .setUncheckedImgDrawable(mActivity.getResources().getDrawable(R.drawable.unchecked))
+                //.setUncheckedImgDrawable(mActivity.getResources().getDrawable(R.drawable.unchecked))
                 .setStatusBarHidden(true)
                 .setLogoOffsetY(unit)
                 .setLogoImgPath("phone")

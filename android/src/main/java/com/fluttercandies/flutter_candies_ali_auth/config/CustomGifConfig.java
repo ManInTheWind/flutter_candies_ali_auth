@@ -17,11 +17,13 @@ import android.widget.Toast;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 import com.fluttercandies.flutter_candies_ali_auth.helper.CacheManage;
 import com.fluttercandies.flutter_candies_ali_auth.helper.NativeBackgroundAdapter;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 /**
@@ -44,7 +46,7 @@ public class CustomGifConfig extends BaseUIConfig {
                 , "background_gif.gif");
     }
     @Override
-    public void configAuthPage() {
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
         mAuthHelper.removeAuthRegisterXmlConfig();
         mAuthHelper.removeAuthRegisterViewConfig();
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;

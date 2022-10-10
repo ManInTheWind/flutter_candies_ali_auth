@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.fluttercandies.flutter_candies_ali_auth.R;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.AuthUIControlClickListener;
@@ -20,6 +21,7 @@ import com.mobile.auth.gatewayauth.ResultCode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 public class FullPortPrivacyConfig extends BaseUIConfig {
@@ -30,7 +32,7 @@ public class FullPortPrivacyConfig extends BaseUIConfig {
     }
 
     @Override
-    public void configAuthPage() {
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
         mAuthHelper.setUIClickListener(new AuthUIControlClickListener() {
             @Override
             public void onClick(String code, Context context, String jsonString) {

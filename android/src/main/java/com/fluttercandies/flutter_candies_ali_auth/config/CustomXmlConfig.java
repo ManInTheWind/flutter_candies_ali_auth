@@ -6,12 +6,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 
@@ -25,7 +27,7 @@ public class CustomXmlConfig extends BaseUIConfig {
         super(activity, authHelper,eventSink);
     }
     @Override
-    public void configAuthPage() {
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
         mAuthHelper.removeAuthRegisterXmlConfig();
         mAuthHelper.removeAuthRegisterViewConfig();
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;

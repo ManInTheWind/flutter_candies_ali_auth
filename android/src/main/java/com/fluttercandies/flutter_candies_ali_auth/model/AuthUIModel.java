@@ -1,5 +1,8 @@
 package com.fluttercandies.flutter_candies_ali_auth.model;
 
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_12;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_14;
+
 import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson2.JSON;
@@ -85,7 +88,7 @@ public class AuthUIModel {
 
 
     // login button
-    public String loginBtnText;
+    public String loginBtnText = "一键登录";
     public String loginBtnTextColor;
     public Integer loginBtnTextSize;
 
@@ -102,46 +105,46 @@ public class AuthUIModel {
     public Double loginBtnLRPadding;
 
     // change button
-    public Boolean changeBtnIsHidden;
-    public String changeBtnTitle;
-    public String changeBtnTextColor;
-    public Integer changeBtnTextSize;
+    public Boolean changeBtnIsHidden = false;
+    public String changeBtnTitle = "切换其他登录方式";
+    public String changeBtnTextColor = "#666666";
+    public Integer changeBtnTextSize = Font_14;
     public Double changeBtnFrameOffsetX;
     public Double changeBtnFrameOffsetY;
 
 
     // checkBox
-    public Boolean checkBoxIsChecked;
-    public Boolean checkBoxIsHidden;
-    public Double checkBoxWH;
+    public Boolean checkBoxIsChecked = false;
+    public Boolean checkBoxIsHidden = false;
+    public Double checkBoxWH = 18.0;
 
     public String checkedImage;
     public String uncheckImage;
 
     // priavacy
-    public String privacyOneName;
-    public String privacyOneUrl;
-    public String privacyTwoName;
-    public String privacyTwoUrl;
+    public String privacyOneName = "《使用协议》";
+    public String privacyOneUrl = "http://******";
+    public String privacyTwoName = "《隐私协议》";
+    public String privacyTwoUrl = "http://******";
     public String privacyThreeName;
     public String privacyThreeUrl;
 
-    public Integer privacyFontSize;
-    public String privacyFontColor;
+    public Integer privacyFontSize = Font_12;
+    public String privacyFontColor = "#2196F3";
 
     public Double privacyFrameOffsetX;
 
     public Double privacyFrameOffsetY;
 
-    public String privacyConnectTexts;
+    public String privacyConnectTexts = "和";
 
-    public String privacyPreText;
+    public String privacyPreText = "已阅读并同意";
 
     public String privacySufText;
 
-    public String privacyOperatorPreText;
+    public String privacyOperatorPreText = "《";
 
-    public String privacyOperatorSufText;
+    public String privacyOperatorSufText  = "》";
 
     public Integer privacyOperatorIndex;
 

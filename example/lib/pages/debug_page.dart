@@ -32,6 +32,7 @@ class _DebugPageState extends State<DebugPage> {
         navColor: Colors.cyan.toHex,
       ),
       logoConfig: LogoConfig(
+        logoIsHidden: false,
         logoImage: "images/flutter_candies_logo.png",
       ),
       sloganConfig: SloganConfig(sloganText: '欢迎登录FlutterCandies'),
@@ -134,8 +135,10 @@ class _DebugPageState extends State<DebugPage> {
                       final responseModel = await AliAuthClient.loginWithConfig(
                         _authConfig.copyWith(
                           authUIConfig: FullScreenUIConfig(
-                            logoConfig:
-                                LogoConfig(logoImage: "images/app_icon.png"),
+                            logoConfig: LogoConfig(
+                              logoIsHidden: false,
+                              logoImage: "images/flutter_candies_logo.png",
+                            ),
                           ),
                         ),
                       );

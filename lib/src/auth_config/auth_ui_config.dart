@@ -1,4 +1,4 @@
-import 'part_ui_config.dart';
+import 'package:flutter_candies_ali_auth/flutter_candies_ali_auth.dart';
 
 abstract class AuthUIConfig {
   LogoConfig? logoConfig;
@@ -20,4 +20,29 @@ abstract class AuthUIConfig {
   });
 
   MapWithStringKey toJson();
+
+  // factory AuthUIConfig.copyWith(AuthUIConfig otherConfig) {
+  //   if(otherConfig is AlertUIConfig){
+  //     return AlertUIConfig(
+  //       alertTitleBarConfig:otherConfig.alertTitleBarConfig,
+  //       alertContentViewColor:otherConfig.alertContentViewColor,
+  //       alertBlurViewColor:otherConfig.alertBlurViewColor,
+  //       alertBlurViewAlpha:otherConfig.alertBlurViewAlpha,
+  //       alertBorderRadius:otherConfig.alertBorderRadius,
+  //       alertWindowHeight:otherConfig.alertWindowHeight,
+  //       alertWindowWidth:otherConfig.alertWindowWidth,
+  //       logoConfig:otherConfig.logoConfig,
+  //       sloganConfig:otherConfig.sloganConfig,
+  //       phoneNumberConfig:otherConfig.phoneNumberConfig,
+  //       loginButtonConfig:otherConfig.loginButtonConfig,
+  //       changeButtonConfig:otherConfig.changeButtonConfig,
+  //       checkBoxConfig:otherConfig.checkBoxConfig,
+  //       privacyConfig:otherConfig.privacyConfig,
+  //     );
+  //   }else if(otherConfig is FullScreenUIConfig){
+  //     return FullScreenUIConfig();
+  //   }else{
+  //     return FullScreenUIConfig();
+  //   }
+  // }
 }

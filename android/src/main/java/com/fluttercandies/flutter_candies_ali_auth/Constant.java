@@ -1,8 +1,12 @@
 package com.fluttercandies.flutter_candies_ali_auth;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
 public class Constant {
     public static final String[] TYPES = {"全屏（竖屏）", "全屏（横屏）", "弹窗（竖屏）",
-            "弹窗（横屏）", "底部弹窗", "自定义View", "自定义View（Xml）","自定义Gif背景","自定义视频背景(mov,mp4)","自定义图片背景","全屏（竖屏弹窗）", "全屏（横屏弹窗)"};
+            "弹窗（横屏）", "底部弹窗", "自定义View", "自定义View（Xml）", "自定义Gif背景", "自定义视频背景(mov,mp4)", "自定义图片背景", "全屏（竖屏弹窗）", "全屏（横屏弹窗)"};
     /**
      * 全屏（竖屏）
      */
@@ -36,20 +40,20 @@ public class Constant {
      */
     public static final int CUSTOM_XML = 6;
     /**
-     *  自定义背景GIF
+     * 自定义背景GIF
      */
     public static final int CUSTOM_GIF = 7;
     /**
-     *  自定义背景视频
+     * 自定义背景视频
      */
     public static final int CUSTOM_MOV = 8;
     /**
-     *  自定义背景图片
+     * 自定义背景图片
      */
-    public static final int CUSTOM_PIC= 9;
+    public static final int CUSTOM_PIC = 9;
 
     /**
-     *  全屏（竖屏弹窗）
+     * 全屏（竖屏弹窗）
      */
     public static final int FULL_PORT_PRIVACY = 10;
 
@@ -61,26 +65,41 @@ public class Constant {
     public static final String THEME_KEY = "theme";
 
     public static final String LOGIN_TYPE = "login_type";
+
     public static final int LOGIN = 1;
+
     public static final int LOGIN_DELAY = 2;
 
-//    public static  Font_28: Int = 28
-//    let Font_24: Int = 24
-//    let Font_20: Int = 20
-//    let Font_17: Int = 17
-//    let Font_16: Int = 16
-//    let Font_14: Int = 14
-//    let Font_12: Int = 12
-//
+    /**
+     * UI Constant
+     */
+    public static int Font_24 = 24;
+    public static int Font_20 = 20;
+    public static int Font_17 = 17;
+    public static int Font_16 = 16;
+    public static int Font_14 = 14;
+    public static int Font_12 = 12;
+
+
 //    let PF_Light: String = "PingFangSC-Light"
+//
 //    let PF_Regular: String = "PingFangSC-Regular"
+//
 //    let PF_Bold: String = "PingFangSC-Semibold"
 //
 //    let kScreen_Width: CGFloat = UIScreen.main.bounds.width
 //    let kScreen_Height: CGFloat = UIScreen.main.bounds.height
-//
-//    let kLogoOffset: Float = 80
-//    let kLogoSize: Float = 100
-//    let kPadding: Float = 8.0
-//    let kBottomInset: Float = 32
+
+    public static int kLogoOffset = 80;
+    public static int kLogoSize = 100;
+
+    public static int kPadding = 8;
+
+    //public kBottomInset: Float = 32
+
+    public static String getAppName(Context context){
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        int stringId = applicationInfo.labelRes;
+        return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
+    }
 }

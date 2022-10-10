@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
@@ -22,6 +23,7 @@ import com.fluttercandies.flutter_candies_ali_auth.R;
 import static com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils.dp2px;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 
@@ -35,7 +37,7 @@ public class DialogLandConfig extends BaseUIConfig{
     }
 
     @Override
-    public void configAuthPage() {
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
         mAuthHelper.removeAuthRegisterXmlConfig();
         mAuthHelper.removeAuthRegisterViewConfig();
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;

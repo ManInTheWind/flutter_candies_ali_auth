@@ -4,16 +4,16 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
-import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
+import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.EventChannel;
 
 
@@ -24,10 +24,7 @@ public class DialogBottomConfig extends BaseUIConfig {
     }
 
     @Override
-    public void configAuthPage() {
-
-        mAuthHelper.removeAuthRegisterXmlConfig();
-        mAuthHelper.removeAuthRegisterViewConfig();
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
 
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
 
@@ -93,8 +90,8 @@ public class DialogBottomConfig extends BaseUIConfig {
                 .setScreenOrientation(authPageOrientation)
                 .setDialogHeight(dialogHeight)
                 .setDialogBottom(true)
-                .setAuthPageActIn(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
-                .setAuthPageActOut(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
+                .setAuthPageActIn(String.valueOf(R.anim.slide_up), String.valueOf(R.anim.slide_down))
+                .setAuthPageActOut(String.valueOf(R.anim.slide_up), String.valueOf(R.anim.slide_down))
                 .create());
 
 //

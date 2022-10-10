@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'auth_response_model.g.dart';
+part '../generated/auth_response_model.g.dart';
 
 @JsonSerializable()
 class AuthResponseModel {
