@@ -28,9 +28,7 @@ Android
 分别添IOS和Android的认证方案，从而获取到SDK的秘钥。
 注意：Ios只需要输入绑定`Bundle name`即可，Android则需要包名和和签名。[如何获取App的签名](https://help.aliyun.com/document_detail/87870.html)
 
-## 使用
-
-### 先了解原生SDK代码调用顺序
+## 先了解原生SDK代码调用顺序
 ```java
 /*
 * 1.初始化获取Token实例
@@ -59,7 +57,7 @@ mAlicomAuthHelper.checkEnvAvailable(PhoneNumberAuthHelper#SERVICE_TYPE_LOGIN);
 mAlicomAuthHelper.getLoginToken(context, 5000);
 ```
 
-### 插件使用
+## 插件使用
 1. 初始化**AliAuthClient**
 ```dart
 AliAuthClient _aliAuthClient = AliAuthClient();
@@ -69,7 +67,7 @@ AliAuthClient _aliAuthClient = AliAuthClient();
 /// 传入回调函数 onEvent,onError(可选),onDone(可选)
 AliAuthClient.onListen(_onEvent, onError: _onError);
 ```
-在`onEvent`中监听回调并且自行进行判断
+ 在`onEvent`中监听回调并且自行进行判断
 ```dart
 void _onEvent(dynamic event) async {
     final responseModel = AuthResponseModel.fromJson(Map.from(event));
@@ -87,8 +85,8 @@ void _onEvent(dynamic event) async {
 }
 
 ``` 
-回调实例`AuthResponseModel`
-在原生中已经对事件响应码进行了包装，消息成员如下
+ 回调实例`AuthResponseModel`
+ 在原生中已经对事件响应码进行了包装，消息成员如下
 
 | 参数名 | 类型 | 描述 |
 | --- | --- | --- |
@@ -100,14 +98,14 @@ void _onEvent(dynamic event) async {
 | innerMsg | String | 运行商认证时候出现的错误信息|
 
 4. 初始化SDK **(initSdk)**
-初始化SDK实例`initSdk`
+ 初始化SDK实例`initSdk`
 ```dart
 /// 初始化前需要先对插件进行监听
 await AliAuthClient.initSdk(
 authConfig: const AuthConfig(),
 );
 ```
-需要通过 `AuthConfig` 来配置安卓和IOS端的秘钥，以及UI的配置 `AuthUIConfig`,成员如下
+ 需要通过 `AuthConfig` 来配置安卓和IOS端的秘钥，以及UI的配置 `AuthUIConfig`,成员如下
 
 | 参数名 | 类型 | 描述 |
 | --- | --- | --- |
@@ -116,9 +114,9 @@ authConfig: const AuthConfig(),
 | authUIStyle | Enum | fullScreen(全屏) bottomSheet(底部弹窗) alert(中间弹窗) 目前暂时配置了三种常用竖屏的形式,更多形式参考[官方文档](https://help.aliyun.com/document_detail/144232.html) 后续将陆续支持 |
 | authUIConfig | AuthUIConfig | UI配置类 |
 
-UI的配置类型 `AuthUIConfig`,分为全屏UI配置 `FullScreenUIConfig` 和弹窗UI配置 `AlertUIConfig`
+ UI的配置类型 `AuthUIConfig`,分为全屏UI配置 `FullScreenUIConfig` 和弹窗UI配置 `AlertUIConfig`
 
-`FullScreenUIConfig` 成员如下
+ `FullScreenUIConfig` 成员如下
 
 | 参数名 | 类型 | 描述 |
 | --- | --- | --- |
@@ -154,28 +152,61 @@ UI的配置类型 `AuthUIConfig`,分为全屏UI配置 `FullScreenUIConfig` 和�
 | privacyConfig | PrivacyConfig | PrivacyConfig配置，自定义协议（目前只支持三个） |
 
 5. 一键登录获取Token **(login)**
-调用该接口首先会弹起授权页，点击授权页的登录按钮获取Token,可选参数为Timeout,默认5s
+ 调用该接口首先会弹起授权页，点击授权页的登录按钮获取Token,可选参数为Timeout,默认5s
 
-调用此接口后会通过之前注册的监听中回调信息
+ 调用此接口后会通过之前注册的监听中回调信息
 ```dart
 await AliAuthClient.login();
 ```
 6. 检查认证环境 **(checkVerifyEnable)**
-一般不需要主动调用检查，因为插件本身在初始化成功后马上进行检查环境（checkVerifyEnable）和加速一键登录授权页弹起（accelerateLoginPage），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
 
-调用此接口后会通过之前注册的监听中回调信息
+ 一般不需要主动调用检查，因为插件本身在初始化成功后马上进行**检查环境（checkVerifyEnable）**和**加速一键登录授权页弹起（accelerateLoginPage**），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
+
+ 调用此接口后会通过之前注册的监听中回调信息
+
 ```dart
 await AliAuthClient.checkVerifyEnable();
 ```
 7. 一键登录预取号 **(accelerateLoginPage)**
-一般不需要主动调用检查，因为插件本身在初始化成功后马上进行检查环境（checkVerifyEnable）和加速一键登录授权页弹起（accelerateLoginPage），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
 
-调用此接口后会通过之前注册的监听中回调信息
+ 一般不需要主动调用检查，因为插件本身在初始化成功后马上进行检查环境（checkVerifyEnable）和加速一键登录授权页弹起（accelerateLoginPage），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
+
+ 调用此接口后会通过之前注册的监听中回调信息
 
 ```dart
 await AliAuthClient.accelerateLoginPage();
 ```
 
+##注意事项
+###关于权限
+1. 安卓权限，本插件已经添加必要的权限支持,增加usesCleartextTraffic配置：
+```xml
+<uses-permission android:name="android.permission.INTERNET" /> <!-- 网络访问 -->
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 检查wifi网络状态 -->
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 检查网络状态 -->
+<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 切换网络通道 -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 本地信息缓存 -->
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 开关Wi-Fi状态，解决中国内地机型移动网络权限问题需要 -->
+```
+```xml
+ <application
+        android:name=".DemoApplication"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+```
+>目前中国移动提供的个别接口为HTTP请求，对于全局禁用HTTP的项目，需要设置HTTP白名单。以下为运营商HTTP接口域名：onekey.cmpassport.com，enrichgw.10010.com，
+详情可参见[官方文档](https://help.aliyun.com/document_detail/144231.html#section-no4-043-b31)
+
+2.苹果开发
+
+- 插件已经集成主库`ATAuthSDK.framework`，不需要添加`-ObjC`。
+
+- 开发工具建议使用Xcode 11及以上。
+
+- 支持iOS 10及以上系统。
 
 
 
