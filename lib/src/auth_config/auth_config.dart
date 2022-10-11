@@ -1,7 +1,4 @@
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:flutter_candies_ali_auth/flutter_candies_ali_auth.dart';
-
-part '../generated/auth_config.g.dart';
+part of flutter_candies_ali_auth;
 
 @CopyWith(skipFields: true, copyWithNull: false)
 class AuthConfig {

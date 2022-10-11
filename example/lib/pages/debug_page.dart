@@ -14,13 +14,6 @@ class DebugPage extends StatefulWidget {
 class _DebugPageState extends State<DebugPage> {
   String? _token;
 
-  AliAuthClient _aliAuthClient = AliAuthClient();
-
-  @override
-  void reassemble() {
-    super.reassemble();
-  }
-
   final AuthConfig _authConfig = AuthConfig(
     iosSdk:
         "WejeYep8gUJhTydrTYaUo574CJx+UDbMKNU4p0thsNB1Jpy2zbKXNuYgN0di171vjsxp+Ndrgo6hx32UMMA1a82Ga+fyvGxicAg4zYEY0+rp0h6x9VDeD6nkDAxx0T/l6+0e7MA0oye5uBSWV1+pAb3kPrJh5TXMugGtcyRokjpsxsEa7z9wpbNl5cDc9ZoChJytHsKGLRd5jBRefMh6x+J5YqBKq6cAYAbbDujGozhACSWR3qXqd5qH323griA/cmnjYxPWj+4kORa3WZv8gISy2gwEw2Ya8d1ZjDYBSD50LNgza/NMpw==",

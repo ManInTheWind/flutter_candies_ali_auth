@@ -1,4 +1,4 @@
-import 'package:flutter_candies_ali_auth/flutter_candies_ali_auth.dart';
+part of flutter_candies_ali_auth;
 
 abstract class AuthUIConfig {
   LogoConfig? logoConfig;

@@ -28,6 +28,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 
 import com.fluttercandies.flutter_candies_ali_auth.model.AuthModel;
 import com.fluttercandies.flutter_candies_ali_auth.model.AuthResponseModel;
+import com.fluttercandies.flutter_candies_ali_auth.utils.AppUtils;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 
@@ -59,7 +60,7 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
 
-    authClient = new AuthClient();
+    authClient = AuthClient.getInstance();
 
     EventChannel auth_event = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "auth_event");
 
@@ -69,9 +70,7 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
     channel.setMethodCallHandler(this);
 
-    authClient.setContext(flutterPluginBinding.getApplicationContext());
   }
-
 
 
   @Override
@@ -83,7 +82,7 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
       getAliAuthVersion(result);
       return;
     }
-    if(Objects.isNull(authClient.eventSink)){
+    if(Objects.isNull(authClient.getEventSink())){
       AuthResponseModel authResponseModel = AuthResponseModel.initFailed(failedListeningMsg);
       result.success(authResponseModel.toJson());
       return;
@@ -97,7 +96,9 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
         break;
       case "accelerateLoginPage":
         authClient.accelerateLoginPage();
+        break;
       case "login":
+        authClient.setLoginTimeout(AppUtils.integerTryParser(call.arguments, 5000));
         authClient.getLoginToken();
         break;
       case "loginWithConfig":
@@ -117,14 +118,14 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
-
     authClient.setFlutterPluginBinding(null);
+    onCancel(null);
   }
 
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
     WeakReference<Activity> activityWeakReference = new WeakReference<>(binding.getActivity());
-    authClient.setActivity(activityWeakReference.get());
+    authClient.setActivity(activityWeakReference);
   }
 
   @Override
@@ -137,20 +138,20 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
   @Override
   public void onDetachedFromActivity() {
-    Log.i(TAG,"onDetachedFromActivity");
+
   }
 
   @Override
   public void onListen(Object arguments, EventChannel.EventSink events) {
-    if(Objects.isNull(authClient.eventSink)){
+    if(Objects.isNull(authClient.getEventSink())){
       authClient.setEventSink(events);
     }
   }
 
   @Override
   public void onCancel(Object arguments) {
-    if(Objects.nonNull(authClient.eventSink)){
-      authClient.eventSink = null;
+    if(Objects.nonNull(authClient.getEventSink())){
+      authClient.setEventSink(null);
     }
   }
 

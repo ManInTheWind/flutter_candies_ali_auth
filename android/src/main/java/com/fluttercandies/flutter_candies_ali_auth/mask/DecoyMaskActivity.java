@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.fluttercandies.flutter_candies_ali_auth.AuthClient;
 import com.fluttercandies.flutter_candies_ali_auth.Constant;
 import com.fluttercandies.flutter_candies_ali_auth.R;
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
@@ -17,9 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 public class DecoyMaskActivity extends Activity {
 
-    public static WeakReference<PhoneNumberAuthHelper> authHelperReference = null;
-
-    public static Integer authUIStyle = null;
 
     public static String TAG = DecoyMaskActivity.class.getSimpleName();
 
@@ -27,20 +25,18 @@ public class DecoyMaskActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(TAG,"onCreate");
 
-        assert authHelperReference!= null;
-
-        assert  authUIStyle != null;
+        AuthClient authClient = AuthClient.getInstance();
 
         // override the auth path open enter animation
-        if (authUIStyle == Constant.DIALOG_PORT){
+        if (authClient.getAuthModel().authUIStyle == Constant.DIALOG_PORT){
             overridePendingTransition(R.anim.zoom_in,R.anim.stay_animation);
         }else{
             overridePendingTransition(R.anim.slide_up,R.anim.stay_animation);
         }
 
-        PhoneNumberAuthHelper authHelper = authHelperReference.get();
+        PhoneNumberAuthHelper authHelper = authClient.mAuthHelper;
 
-        authHelper.getLoginToken(this.getBaseContext(),5000);
+        authHelper.getLoginToken(this.getBaseContext(),authClient.getLoginTimeout());
 
         super.onCreate(savedInstanceState);
 
@@ -72,15 +68,6 @@ public class DecoyMaskActivity extends Activity {
         super.onResume();
     }
 
-    @Override
-    protected void onDestroy() {
-
-        authHelperReference = null;
-
-        authUIStyle = null;
-
-        super.onDestroy();
-    }
 
     @Override
     public void finish() {

@@ -42,4 +42,12 @@ public class AppUtils {
 
         return var2.heightPixels;
     }
+
+    public static int integerTryParser(Object o,int defaultValue){
+        try {
+            return (int) o;
+        }catch (Exception ignore){
+            return defaultValue;
+        }
+    }
 }

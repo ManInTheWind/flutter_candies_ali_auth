@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../auth_response_model/auth_response_model.dart';
+part of flutter_candies_ali_auth;
 
 // **************************************************************************
 // JsonSerializableGenerator

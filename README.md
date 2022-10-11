@@ -191,7 +191,9 @@ await AliAuthClient.checkVerifyEnable();
 
  一般不需要主动调用检查，因为插件本身在初始化成功后马上进行检查环境（checkVerifyEnable）和加速一键登录授权页弹起（accelerateLoginPage），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
 
- 调用此接口后会通过之前注册的监听中回调信息
+ - 在不是一进app就需要登录的场景 建议调用此接口 加速拉起一键登录页面
+ - 等到用户点击登录的时候 授权页可以秒拉
+ - 预取号的成功与否不影响一键登录功能，所以不需要等待预取号的返回。
 
 ```dart
 await AliAuthClient.accelerateLoginPage();

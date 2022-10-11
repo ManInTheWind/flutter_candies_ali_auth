@@ -1,9 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-
-import '../../flutter_candies_ali_auth.dart';
+part of flutter_candies_ali_auth;
 
 class AliAuthClient {
   static const MethodChannel _methodChannel = MethodChannel('flutter_ali_auth');
@@ -35,7 +30,8 @@ class AliAuthClient {
 
   ///一键登陆，debug专用, 用新的配置去验证，耗时会比较久
   static Future<AuthResponseModel> loginWithConfig(
-      AuthConfig authConfig) async {
+    AuthConfig authConfig,
+  ) async {
     final res = await _methodChannel.invokeMethod(
         'loginWithConfig', authConfig.toJson());
     return AuthResponseModel.fromJson(Map<String, dynamic>.from(res));
@@ -43,15 +39,16 @@ class AliAuthClient {
 
   //Completer<Stream<dynamic>>? _completer;
 
+  static Stream<dynamic>? _pluginStream;
+
   static Future<void> onListen(
     ValueChanged onData, {
     Function? onError,
     VoidCallback? onDone,
     bool? cancelOnError,
   }) async {
-    final Stream<dynamic> pluginStream =
-        _loginEventChannel.receiveBroadcastStream();
-    pluginStream.listen(
+    _pluginStream ??= _loginEventChannel.receiveBroadcastStream();
+    _pluginStream!.listen(
       onData,
       onError: onError,
       onDone: onDone,
@@ -75,12 +72,5 @@ class AliAuthClient {
   ///检查版本
   static Future<dynamic> get version {
     return _methodChannel.invokeMethod('getAliAuthVersion');
-  }
-
-  static Future<FlutterError?> closeLoginEventChannel() async {
-    //_completer = Completer<Stream<dynamic>>();
-    final FlutterError? anyError =
-        await _methodChannel.invokeMethod("cancelListen");
-    return anyError;
   }
 }

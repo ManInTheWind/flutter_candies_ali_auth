@@ -44,16 +44,16 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
 
         switch call.method {
         case "init":
-            initSdk(arguments: call.arguments, result: result)
+            initSdk(arguments: call.arguments)
         case "login":
             let timeout: TimeInterval = (call.arguments as? TimeInterval) ?? 5.0
-            login(timeout: timeout, result: result)
+            login(timeout: timeout)
         case "checkEnv":
-            checkEnvAvailable(result: result)
+            checkEnvAvailable()
         case "accelerateLoginPage":
-            accelerateLoginPage(result)
+            accelerateLoginPage()
         case "loginWithConfig":
-            login(arguments: call.arguments, result: result)
+            login(arguments: call.arguments)
         case "cancelListen":
             cancelListenLoginEvent(result: result)
         default:
@@ -95,7 +95,7 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
 
     // MARK: - 设置SDK密钥（setAuthSDKInfo）
 
-    public func initSdk(arguments: Any?, result: @escaping FlutterResult) {
+    public func initSdk(arguments: Any?) {
         var responseMoedel: ResponseModel
 
         TXCommonHandler.sharedInstance().getReporter().setConsolePrintLoggerEnable(true)
@@ -103,14 +103,14 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
         guard let params = arguments as? [String: Any] else {
             // 参数有问题
             responseMoedel = ResponseModel(code: PNSCodeFailed, msg: "初始化失败，AuthConfig不能为空")
-            // onSend(responseMoedel)
-            result(responseMoedel.json)
+            onSend(responseMoedel)
             return
         }
+
         guard let sdk = params["iosSdk"] as? String else {
             // 没有sdk
             responseMoedel = ResponseModel(code: PNSCodeFailed, msg: "初始化失败，sdk为空")
-            result(responseMoedel.json)
+            onSend(responseMoedel)
             return
         }
 
@@ -120,19 +120,17 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
         TXCommonHandler.sharedInstance().setAuthSDKInfo(sdk) { resultDict in
             guard let dict = resultDict as? [String: Any] else {
                 let _responseMoedel = ResponseModel(resultDict)
-                // self.onSend(_responseMoedel)
-                result(_responseMoedel.json)
+                self.onSend(_responseMoedel)
                 return
             }
             guard let code = dict["resultCode"] as? String else {
-                // self.onSend(ResponseModel(dict))
-                result(ResponseModel(dict).json)
+                self.onSend(ResponseModel(dict))
                 return
             }
 
             if code == PNSCodeSuccess {
                 // 初始化成功：{msg: AppID、Appkey解析成功, resultCode: 600000, requestId: 481a2c9b50264cf3}
-                self.checkEnvAvailable(result: result)
+                self.checkEnvAvailable()
             } else {
                 // 初始化失败
                 self.onSend(ResponseModel(dict))
@@ -142,71 +140,55 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
 
     // MARK: - 检查认证环境（checkEnvAvailableWithComplete）
 
-    public func checkEnvAvailable(result: @escaping FlutterResult) {
+    public func checkEnvAvailable() {
         TXCommonHandler.sharedInstance().checkEnvAvailable(with: PNSAuthType.loginToken) { (resultDict: [AnyHashable: Any]?) in
             guard let dict = resultDict as? [String: Any] else {
-                result(ResponseModel(resultDict).json)
+                self.onSend(ResponseModel(resultDict))
                 return
             }
             guard let code = dict["resultCode"] as? String else {
-                result(ResponseModel(dict).json)
+                self.onSend(ResponseModel(dict))
                 return
             }
             /// 当前环境可以进行验证：{resultCode: 600000, requestId: afa404b4fba34103, msg: }
             if code == PNSCodeSuccess {
                 let response = ResponseModel(code: PNSCodeSuccess, msg: "当前环境可以进行一键登录")
-                result(response.json)
+                self.onSend(response)
                 // 开始一键登录预取号
-                self.accelerateLoginPage(nil)
+                self.accelerateLoginPage()
             } else {
-                result(ResponseModel(dict).json)
+                self.onSend(ResponseModel(dict))
             }
         }
     }
 
     // MARK: - 一键登录预取号（accelerateLoginPageWithTimeout）
 
-    public func accelerateLoginPage(_ result: FlutterResult?) {
+    public func accelerateLoginPage() {
         print("开始一键登录预取号")
         TXCommonHandler.sharedInstance().accelerateLoginPage(withTimeout: 5.0) { resultDict in
             guard let dict = resultDict as? [String: Any] else {
-                if result != nil {
-                    result!(ResponseModel(resultDict).json)
-                }
-
+                self.onSend(ResponseModel(resultDict))
                 return
             }
             guard let code = dict["resultCode"] as? String else {
-                if result != nil {
-                    result!(ResponseModel(dict).json)
-                }
-
+                self.onSend(ResponseModel(dict))
                 return
             }
             /// 加速成功：{msg: , carrierFailedResultData: {}, requestId: 143bd2c7e5044e86, innerCode: , resultCode: 600000, innerMsg: }
             if code == PNSCodeSuccess {
-                if result != nil {
-                    result!(ResponseModel(dict).json)
-                }
-
+                let response = ResponseModel(code: PNSCodeSuccess, msg: "预取号成功")
+                self.onSend(response)
             } else {
-                if result != nil {
-                    result!(ResponseModel(dict).json)
-                }
+                self.onSend(ResponseModel(dict))
             }
         }
     }
 
     // MARK: - 一键登录获取Token（getLoginTokenWithTimeout）
 
-    public func login(timeout: TimeInterval, result: @escaping FlutterResult) {
+    public func login(timeout: TimeInterval) {
         assert(_authConfig != nil, "AuthConfig不能为空")
-
-        if _eventSink == nil {
-            let responseMoedel = ResponseModel(code: PNSCodeFailed, msg: "初始化失败，请先对插件进行监听")
-            result(responseMoedel.json)
-            return
-        }
 
         let model = authUIBuilder.buildUIModel(authUIStyle: _authConfig!.authUIStyle, authUIConfig: _authConfig!.authUIConfig)
 
@@ -215,7 +197,7 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
             onSend(responseModel)
             return
         }
-
+        // print("拉起授权页面")
         TXCommonHandler.sharedInstance().checkEnvAvailable(with: PNSAuthType.loginToken) { (resultDict: [AnyHashable: Any]?) in
             guard let dict = resultDict as? [String: Any] else {
                 let _responseMoedel = ResponseModel(resultDict)
@@ -289,17 +271,14 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
                 }
             }
         }
+
+        
+        
     }
 
     // MARK: - 一键登陆，debug专用, 用新的配置去验证，耗时会比较久
 
-    func login(arguments: Any?, result: @escaping FlutterResult) {
-        if _eventSink == nil {
-            let responseMoedel = ResponseModel(code: PNSCodeFailed, msg: "拉起授权页面之前请对页面进行监听")
-            result(responseMoedel.json)
-            return
-        }
-
+    func login(arguments: Any?) {
         var _config: AuthConfig?
 
         if let rawConfig = arguments as? [String: Any] {
@@ -391,6 +370,11 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
                 }
             }
         }
+    }
+
+    public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
+        _authConfig = nil
+        onCancel(withArguments: nil)
     }
 
     public func cancelListenLoginEvent(result: @escaping FlutterResult) {

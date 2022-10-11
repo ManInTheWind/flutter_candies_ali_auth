@@ -1,9 +1,4 @@
-import 'dart:ui';
-
-import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-part '../generated/part_ui_config.g.dart';
+part of flutter_candies_ali_auth;
 
 typedef MapWithStringKey = Map<String, dynamic>;
 

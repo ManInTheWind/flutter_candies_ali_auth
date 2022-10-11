@@ -1,9 +1,4 @@
-import 'package:copy_with_extension/copy_with_extension.dart';
-
-import 'auth_ui_config.dart';
-import 'part_ui_config.dart';
-
-part '../generated/full_screen_ui_config.g.dart';
+part of flutter_candies_ali_auth;
 
 @CopyWith(skipFields: true, copyWithNull: false)
 class FullScreenUIConfig extends AuthUIConfig {
