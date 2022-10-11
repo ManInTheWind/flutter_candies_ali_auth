@@ -8,8 +8,6 @@ Language: 中文
 
 阿里云一键登录IOS接入文档: [iOS_V2.12.9](https://help.aliyun.com/document_detail/144186.html)
 
-***
-
 ## 目录
 * [效果图](#准备工作)
   * [IOS](#IOS)
@@ -24,7 +22,6 @@ Language: 中文
   * [调起授权页面，获取Token](#一键登录获取Token)
 * [注意事项](#注意事项)
 
-***
 
 ## 效果图 📷
 
@@ -46,7 +43,7 @@ Language: 中文
 分别添IOS和Android的认证方案，从而获取到SDK的秘钥。
 注意：Ios只需要输入绑定`Bundle name`即可，Android则需要包名和和签名。[如何获取App的签名](https://help.aliyun.com/document_detail/87870.html)
 
-## 先了解原生SDK代码调用顺序🔗
+## 先了解原生SDK代码调用顺序 🔗
 ```java
 /*
 * 1.初始化获取Token实例
@@ -77,9 +74,8 @@ mAlicomAuthHelper.getLoginToken(context, 5000);
 
 ## 插件使用 ☄️
 
-***
 
-###1. 添加监听
+### 1. 添加监听
 ```dart
 /// 传入回调函数 onEvent,onError(可选),onDone(可选)
 AliAuthClient.onListen(_onEvent, onError: _onError);
@@ -114,9 +110,8 @@ void _onEvent(dynamic event) async {
 | innerCode | String | 如果初始化认证SDK出现问题，回调信息一般会携带运行商的错误代码和错误信息，详情参考[运营商SDK错误码](https://help.aliyun.com/document_detail/85351.htm?spm=a2c4g.11186623.0.0.ab636cf0vQSEZO#topic2087)|
 | innerMsg | String | 运行商认证时候出现的错误信息|
 
-***
 
-###2.初始化SDK **(initSdk)**
+### 2.初始化SDK **(initSdk)**
 
 ```dart
 /// 初始化前需要须对插件进行监听
@@ -170,9 +165,8 @@ authConfig: const AuthConfig(),
 | checkBoxConfig | CheckBoxConfig | CheckBoxConfig配置类，弹窗默认隐藏checkbox |
 | privacyConfig | PrivacyConfig | PrivacyConfig配置，自定义协议（目前只支持三个） |
 
-***
 
-###3.一键登录获取Token **(login)**
+### 3.一键登录获取Token **(login)**
 
  调用该接口首先会弹起授权页，点击授权页的登录按钮获取Token,可选参数为Timeout,默认5s
 
@@ -181,9 +175,8 @@ authConfig: const AuthConfig(),
 await AliAuthClient.login();
 ```
 
-***
 
-###4.检查认证环境 **(checkVerifyEnable)**
+### 4.检查认证环境 **(checkVerifyEnable)**
 
  一般不需要主动调用检查，因为插件本身在初始化成功后马上进行**检查环境（checkVerifyEnable）**和**加速一键登录授权页弹起（accelerateLoginPage**），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
 
@@ -193,9 +186,8 @@ await AliAuthClient.login();
 await AliAuthClient.checkVerifyEnable();
 ```
 
-***
 
-###5.一键登录预取号 **(accelerateLoginPage)**
+### 5.一键登录预取号 **(accelerateLoginPage)**
 
  一般不需要主动调用检查，因为插件本身在初始化成功后马上进行检查环境（checkVerifyEnable）和加速一键登录授权页弹起（accelerateLoginPage），防止等待弹起授权页时间过长，这个逻辑与原生SDK一样，建议此方法在debug或者自行判断使用
 
@@ -204,8 +196,6 @@ await AliAuthClient.checkVerifyEnable();
 ```dart
 await AliAuthClient.accelerateLoginPage();
 ```
-
-***
 
 ## 注意事项 ⚠️
 ### 关于权限
