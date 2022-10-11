@@ -21,7 +21,13 @@ extension AuthUIBuilder {
         model.supportedInterfaceOrientations = .portrait
 
         // status bar
-        model.preferredStatusBarStyle = UIStatusBarStyle.lightContent
+        if #available(iOS 13.0, *) {
+            model.preferredStatusBarStyle = UIStatusBarStyle.darkContent
+        } else {
+            // Fallback on earlier versions
+            model.preferredStatusBarStyle = UIStatusBarStyle.default
+        }
+   
         model.prefersStatusBarHidden = config.prefersStatusBarHidden ?? false
 
 //        if #available(iOS 13.0, *) {

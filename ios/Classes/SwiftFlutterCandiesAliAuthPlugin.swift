@@ -13,7 +13,7 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter_ali_auth", binaryMessenger: registrar.messenger())
 
-        let eventChannel = FlutterEventChannel(name: "login_event", binaryMessenger: registrar.messenger())
+        let eventChannel = FlutterEventChannel(name: "auth_event", binaryMessenger: registrar.messenger())
 
         let instance = SwiftFlutterCandiesAliAuthPlugin()
 
@@ -28,6 +28,20 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if call.method == "getPlatformVersion" {
+            result("iOS " + UIDevice.current.systemVersion)
+            return
+        } else if call.method == "getAliAuthVersion" {
+            getVersion(result: result)
+            return
+        }
+
+        if _eventSink == nil {
+            let authResponseModel = ResponseModel(code: PNSCodeFailed, msg: "请先对插件进行监听")
+            result(authResponseModel.json)
+            return
+        }
+
         switch call.method {
         case "init":
             initSdk(arguments: call.arguments, result: result)
@@ -42,10 +56,6 @@ public class SwiftFlutterCandiesAliAuthPlugin: NSObject, FlutterPlugin {
             login(arguments: call.arguments, result: result)
         case "cancelListen":
             cancelListenLoginEvent(result: result)
-        case "getPlatformVersion":
-            result("iOS " + UIDevice.current.systemVersion)
-        case "getAliAuthVersion":
-            getVersion(result: result)
         default:
             result(FlutterMethodNotImplemented)
         }

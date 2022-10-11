@@ -77,8 +77,11 @@ extension AuthUIBuilder {
         // Logo
         model.logoIsHidden = config.logoIsHidden ?? false
         
-        if let logoImage = FlutterAssetImage("images/app_icon.png") {
-            model.logoImage = logoImage
+        if let logoImage = config.logoImage {
+            if let logoImageAssets = FlutterAssetImage(logoImage) {
+                model.logoImage = logoImageAssets
+            }
+
             // logo的位置
             model.logoFrameBlock = {
                 _, _, frame -> CGRect in
@@ -186,7 +189,7 @@ extension AuthUIBuilder {
 
         // CheckBox
         model.checkBoxIsChecked = config.checkBoxIsChecked ?? false
-        model.checkBoxIsHidden = config.checkBoxIsHidden ?? false
+        model.checkBoxIsHidden = config.checkBoxIsHidden ?? true
         
         var checkBoxImages = [UIImage]()
         
@@ -225,7 +228,7 @@ extension AuthUIBuilder {
 
         model.privacyOperatorSufText = config.privacyOperatorSufText ?? "》"
 
-        model.privacyPreText = config.privacyPreText ?? "已同意"
+        model.privacyPreText = config.privacyPreText ?? "点击一键登录表示您已经阅读并同意"
         
         model.privacyColors = [UIColor.darkGray, config.privacyFontColor?.uicolor() ?? UIColor.systemBlue]
 

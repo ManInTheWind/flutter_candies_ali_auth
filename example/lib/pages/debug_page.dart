@@ -72,51 +72,66 @@ class _DebugPageState extends State<DebugPage> {
           children: [
             _divider('初始化操作'),
             ElevatedButton(
+              child: const Text('注册监听'),
+              onPressed: () async {
+                try {
+                  await AliAuthClient.onListen(_onEvent, onError: _onError);
+                  SmartDialog.showToast('注册监听成功');
+                } catch (e) {
+                  SmartDialog.showToast('注册监听失败');
+                }
+              },
+            ),
+            ElevatedButton(
               child: const Text('初始化SDK'),
               onPressed: () async {
-                final responseModel = await AliAuthClient.initSdk(
-                  authConfig: _authConfig,
-                );
-                print("onTap:$responseModel");
-                if (responseModel.resultCode == PNSCodeSuccess) {
-                  SmartDialog.showToast(responseModel.msg ?? '初始化失败');
-                } else if (responseModel.resultCode == PNSCodeFailed ||
-                    responseModel.resultCode == PNSCodeDecodeAppInfoFailed) {
-                  SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                try {
+                  SmartDialog.showToast("正在初始化...");
+                  final responseModel = await AliAuthClient.initSdk(
+                    authConfig: _authConfig,
+                  );
+                  if (responseModel.resultCode == PNSCodeSuccess) {
+                    SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                  } else if (responseModel.resultCode == PNSCodeFailed ||
+                      responseModel.resultCode == PNSCodeDecodeAppInfoFailed) {
+                    SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                  }
+                } catch (e) {
+                  SmartDialog.dismiss(status: SmartStatus.loading);
                 }
               },
             ),
             ElevatedButton(
               child: const Text('检查环境是否支持认证'),
               onPressed: () async {
-                final responseModel = await AliAuthClient.checkVerifyEnable();
-                print(responseModel);
-
-                if (responseModel.resultCode == PNSCodeSuccess) {
-                  SmartDialog.showToast(responseModel.msg ?? '当前环境可以进行一键登录');
-                } else if (responseModel.resultCode == PNSCodeFailed) {
-                  SmartDialog.showToast(responseModel.msg ?? '当前环境不支持一键登录');
+                try {
+                  final responseModel = await AliAuthClient.checkVerifyEnable();
+                  if (responseModel.resultCode == PNSCodeSuccess) {
+                    SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                  } else if (responseModel.resultCode == PNSCodeFailed ||
+                      responseModel.resultCode == PNSCodeDecodeAppInfoFailed) {
+                    SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                  }
+                } catch (e) {
+                  SmartDialog.dismiss(status: SmartStatus.loading);
                 }
               },
             ),
             ElevatedButton(
               child: const Text('加速一键登录授权页弹起'),
               onPressed: () async {
-                final responseModel = await AliAuthClient.accelerateLoginPage();
-                print(responseModel);
-                if (responseModel.resultCode == PNSCodeSuccess) {
-                  SmartDialog.showToast('预取号成功');
-                } else if (responseModel.resultCode == PNSCodeFailed) {
-                  SmartDialog.showToast(responseModel.msg ?? '预取号失败');
+                try {
+                  final responseModel =
+                      await AliAuthClient.accelerateLoginPage();
+                  if (responseModel.resultCode == PNSCodeSuccess) {
+                    SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                  } else if (responseModel.resultCode == PNSCodeFailed ||
+                      responseModel.resultCode == PNSCodeDecodeAppInfoFailed) {
+                    SmartDialog.showToast(responseModel.msg ?? '初始化失败');
+                  }
+                } catch (e) {
+                  SmartDialog.dismiss(status: SmartStatus.loading);
                 }
-              },
-            ),
-            ElevatedButton(
-              child: const Text('添加授权页面的监听'),
-              onPressed: () async {
-                SmartDialog.showLoading();
-                await AliAuthClient.onListen(_onEvent, onError: _onError);
-                SmartDialog.dismiss(status: SmartStatus.loading);
               },
             ),
             _divider('授权页面操作'),
@@ -139,6 +154,8 @@ class _DebugPageState extends State<DebugPage> {
                               logoIsHidden: false,
                               logoImage: "images/flutter_candies_logo.png",
                             ),
+                            sloganConfig:
+                                SloganConfig(sloganText: '欢迎登录FlutterCandies'),
                           ),
                         ),
                       );
@@ -154,11 +171,7 @@ class _DebugPageState extends State<DebugPage> {
                           _authConfig.copyWith(
                         authUIStyle: AuthUIStyle.bottomSheet,
                       ));
-                      print(responseModel);
-
-                      if (responseModel.resultCode == PNSCodeFailed) {
-                        SmartDialog.showToast(responseModel.msg ?? '拉起授权页面失败');
-                      }
+                      SmartDialog.showToast(responseModel.msg ?? '拉起授权页面失败');
                     },
                   ),
                   OutlinedButton(
@@ -168,11 +181,7 @@ class _DebugPageState extends State<DebugPage> {
                           _authConfig.copyWith(
                         authUIStyle: AuthUIStyle.alert,
                       ));
-                      print(responseModel);
-
-                      if (responseModel.resultCode == PNSCodeFailed) {
-                        SmartDialog.showToast(responseModel.msg ?? '拉起授权页面失败');
-                      }
+                      SmartDialog.showToast(responseModel.msg ?? '拉起授权页面失败');
                     },
                   ),
                 ],

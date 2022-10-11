@@ -56,7 +56,6 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    Log.i(TAG,"onAttachedToEngine");
 
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_ali_auth");
 
@@ -77,7 +76,6 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    Log.w(TAG, "call.method：" + call.method);
     if(call.method.equals("getPlatformVersion")){
       result.success("Android " + android.os.Build.VERSION.RELEASE);
       return;
@@ -118,8 +116,6 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    Log.i(TAG,"onDetachedFromEngine");
-
     channel.setMethodCallHandler(null);
 
     authClient.setFlutterPluginBinding(null);
@@ -127,26 +123,16 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
 
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-    Log.i(TAG,"onAttachedToActivity:"+binding.getActivity().getClass().getSimpleName());
-
-    Log.i(TAG,"orientation:"+binding.getActivity().getResources().getConfiguration().orientation);
-
     WeakReference<Activity> activityWeakReference = new WeakReference<>(binding.getActivity());
-
-
     authClient.setActivity(activityWeakReference.get());
   }
 
   @Override
   public void onDetachedFromActivityForConfigChanges() {
-    Log.i(TAG,"onDetachedFromActivityForConfigChanges");
   }
 
   @Override
   public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-    //authClient.setActivity(binding.getActivity());
-    Log.i(TAG,"onReattachedToActivityForConfigChanges");
-
   }
 
   @Override
@@ -168,47 +154,4 @@ public class FlutterCandiesAliAuthPlugin  implements FlutterPlugin,
     }
   }
 
-
-
-
-  //  @Override
-//  protected void onCreate(@Nullable Bundle savedInstanceState) {
-//    super.onCreate(savedInstanceState);
-//    Log.i(TAG,"onCreate");
-//
-//  }
-//
-//  @Override
-//  protected void onStart() {
-//    super.onStart();
-//    Log.i(TAG,"onStart");
-//
-//  }
-//
-//  @Override
-//  protected void onResume() {
-//    super.onResume();
-//    Log.i(TAG,"onResume");
-//
-//  }
-//
-//  @Override
-//  protected void onPause() {
-//    super.onPause();
-//    Log.i(TAG,"onPause");
-//
-//  }
-//
-//  @Override
-//  protected void onStop() {
-//    super.onStop();
-//    Log.i(TAG,"onStop");
-//
-//  }
-//
-//  @Override
-//  protected void onDestroy() {
-//    super.onDestroy();
-//    Log.i(TAG,"onDestroy");
-//  }
 }

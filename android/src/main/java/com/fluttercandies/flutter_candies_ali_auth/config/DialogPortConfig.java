@@ -47,9 +47,9 @@ public class DialogPortConfig extends BaseUIConfig {
 
         updateScreenSize(authPageOrientation);
 
-        int dialogHeight = (int) (mScreenHeightDp * 0.55f);
+        int dialogHeight = (int) (authUIModel.alertWindowWidth == null ? mScreenHeightDp * 0.55f : authUIModel.alertWindowWidth);
 
-        int dialogWidth = (int) (mScreenWidthDp * 0.9f);
+        int dialogWidth = (int) (authUIModel.alertWindowHeight == null ? mScreenWidthDp * 0.9f : authUIModel.alertWindowHeight);
 
         //sdk默认控件的区域是marginTop50dp
         int designHeight = dialogHeight - 50;
@@ -179,6 +179,7 @@ public class DialogPortConfig extends BaseUIConfig {
                 .setDialogOffsetY(0)
 
                 //.setDialogBottom(true)
+
                 .setAuthPageActIn(String.valueOf(R.anim.zoom_in), String.valueOf(R.anim.zoom_out))
                 .setAuthPageActOut(String.valueOf(R.anim.zoom_in), String.valueOf(R.anim.zoom_out))
                 .create());
