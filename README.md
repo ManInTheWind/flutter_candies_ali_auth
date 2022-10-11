@@ -9,29 +9,29 @@ Language: 中文
 阿里云一键登录IOS接入文档: [iOS_V2.12.9](https://help.aliyun.com/document_detail/144186.html)
 
 ## 目录
-* [效果图](#准备工作)
+* [效果图](#效果图-)
   * [IOS](#IOS)
   * [Android](#Android)
-* [准备工作](#准备工作)
-* [原生SDK代码调用顺序](#原生SDK代码调用顺序)
-* [插件使用](#插件使用)
+* [准备工作](#准备工作-)
+* [原生SDK代码调用顺序](##先了解原生sdk代码调用顺序-)
+* [插件使用](#插件使用-%EF%B8%8F)
   * [添加监听](#1-添加监听)
   * [初始化SDK配置密钥与UI](#2初始化sdk-initsdk)
   * [检查环境](#3一键登录获取token-login)
   * [预取号](#4检查认证环境-checkverifyenable)
   * [调起授权页面，获取Token](#5一键登录预取号-accelerateloginpage)
-* [注意事项](#注意事项)
+* [注意事项](#注意事项-%EF%B8%8F)
 
 
 ## 效果图 📷
 
-###IOS
+### IOS
 
 | 全屏 | 底部弹窗 | 中间弹窗 |
 | --- | --- | --- |
 | ![](https://github.com/ManInTheWind/assets_repository/blob/main/images/project/full_screen_ios.PNG) | ![](https://github.com/ManInTheWind/assets_repository/blob/main/images/project/bottomsheet_ios.PNG) | ![](https://github.com/ManInTheWind/assets_repository/blob/main/images/project/alert_ios.PNG) |
 
-###Android
+### Android
 
 | 全屏 | 底部弹窗 | 中间弹窗 |
 | --- | --- | --- |
