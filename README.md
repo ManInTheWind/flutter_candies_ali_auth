@@ -177,8 +177,8 @@ await AliAuthClient.checkVerifyEnable();
 await AliAuthClient.accelerateLoginPage();
 ```
 
-##注意事项
-###关于权限
+## 注意事项
+### 关于权限
 1. 安卓权限，本插件已经添加必要的权限支持,增加usesCleartextTraffic配置：
 ```xml
 <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络访问 -->

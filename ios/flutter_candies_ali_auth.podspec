@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.version          = '0.0.1'
   s.summary          = 'Flutter Ali Auth Plugin'
   s.description      = <<-DESC
-Flutter Ali Auth Plugin
+Flutter Ali Auth Plugin 阿里云一键登录 Flutter SDK
                        DESC
   s.homepage         = 'https://github.com/fluttercandies/'
   s.license          = { :file => '../LICENSE' }
