@@ -8,7 +8,7 @@ Language: 中文
 
 阿里云一键登录IOS接入文档: [iOS_V2.12.9](https://help.aliyun.com/document_detail/144186.html)
 
-##效果图 📷
+## 效果图 📷
 
 IOS
 
@@ -22,15 +22,15 @@ Android
 | --- | --- | --- |
 | ![](https://github.com/ManInTheWind/assets_repository/blob/main/images/project/full_screen_android.jpg "full_screen_android") | ![](https://github.com/ManInTheWind/assets_repository/blob/main/images/project/bottomsheet_android.jpg) | ![](https://github.com/ManInTheWind/assets_repository/blob/main/images/project/alert_android.jpg) |
 
-##准备工作 🔧
+## 准备工作 🔧
 
 请登录阿里云控制台[号码认证服务](https://dypns.console.aliyun.com/?spm=5176.13329450.favorite.ddypns.2fdd4df5w4jELK#/overview)
 分别添IOS和Android的认证方案，从而获取到SDK的秘钥。
 注意：Ios只需要输入绑定`Bundle name`即可，Android则需要包名和和签名。[如何获取App的签名](https://help.aliyun.com/document_detail/87870.html)
 
-##使用
+## 使用
 
-###先了解原生SDK代码调用顺序
+### 先了解原生SDK代码调用顺序
 ```java
 /*
 * 1.初始化获取Token实例
@@ -59,6 +59,7 @@ mAlicomAuthHelper.checkEnvAvailable(PhoneNumberAuthHelper#SERVICE_TYPE_LOGIN);
 mAlicomAuthHelper.getLoginToken(context, 5000);
 ```
 
+### 插件使用
 1. 初始化**AliAuthClient**
 ```dart
 AliAuthClient _aliAuthClient = AliAuthClient();
