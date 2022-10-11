@@ -1,10 +1,18 @@
 package com.fluttercandies.flutter_candies_ali_auth.config;
 
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_12;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_16;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_20;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kAlertLogoOffset;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kLogoSize;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kPadding;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.fluttercandies.flutter_candies_ali_auth.R;
 import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
@@ -30,41 +38,79 @@ public class DialogPortConfig extends BaseUIConfig {
     }
 
     @Override
-    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel) {
-        mAuthHelper.removeAuthRegisterXmlConfig();
-        mAuthHelper.removeAuthRegisterViewConfig();
+    public void configAuthPage(FlutterPlugin.FlutterPluginBinding flutterPluginBinding, AuthUIModel authUIModel){
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+
         if (Build.VERSION.SDK_INT == 26) {
             authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_BEHIND;
         }
+
         updateScreenSize(authPageOrientation);
-        int dialogWidth = (int) (mScreenWidthDp * 0.8f);
-        int dialogHeight = (int) (mScreenHeightDp * 0.65f) - 50;
-        int unit = dialogHeight / 10;
+
+        int dialogHeight = (int) (mScreenHeightDp * 0.55f);
+
+        int dialogWidth = (int) (mScreenWidthDp * 0.9f);
+
+        //sdk默认控件的区域是marginTop50dp
+        int designHeight = dialogHeight - 50;
+
+        int unit = designHeight / 10;
+
         int logBtnHeight = (int) (unit * 1.2);
 
-        mAuthHelper.addAuthRegistViewConfig("switch_msg", new AuthRegisterViewConfig.Builder()
-                .setView(initSwitchView(unit * 6))
-                .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
-//                .setCustomInterface(new CustomInterface() {
-//                    @Override
-//                    public void onClick(Context context) {
-//                        Toast.makeText(mContext, "切换到短信登录方式", Toast.LENGTH_SHORT).show();
-//                        Intent pIntent = new Intent(mActivity, MessageActivity.class);
-//                        mActivity.startActivityForResult(pIntent, 1002);
-//                        mAuthHelper.quitLoginPage();
-//                    }
-//                })
-                .build());
+        boolean logoIsHidden = authUIModel.logoIsHidden != null ? authUIModel.logoIsHidden : true;
+
+        String logoPath = null;
+
+        if (!logoIsHidden) {
+            try {
+                FlutterPlugin.FlutterAssets flutterAssets = flutterPluginBinding.getFlutterAssets();
+                logoPath = flutterAssets.getAssetFilePathByName(authUIModel.logoImage);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logoPath = "mytel_app_launcher";
+            }
+        }
+
+        int logoSize = (int) (kLogoSize * 0.85f);
+
+        int sloganColor = mActivity.getResources().getColor(R.color.md_grey_700);
+
+        double sloganFrameOffsetY = authUIModel.sloganFrameOffsetY == null ? (kAlertLogoOffset + logoSize + kPadding) : authUIModel.sloganFrameOffsetY;
+
+        double numberFrameOffsetY = authUIModel.numberFrameOffsetY == null ? (sloganFrameOffsetY + Font_20 + kPadding) : authUIModel.numberFrameOffsetY;
+
+        double loginBtnWidth = authUIModel.loginBtnWidth == null ? dialogWidth * 0.85 : authUIModel.loginBtnWidth;
+
+        double loginBtnHeight = authUIModel.loginBtnHeight == null ? 48 : authUIModel.loginBtnHeight;
+
+        double loginBtnOffsetY = authUIModel.loginBtnFrameOffsetY == null ? (dialogHeight * 0.5f ) : authUIModel.loginBtnFrameOffsetY;
+
+        String loginBtnImage = authUIModel.loginBtnNormalImage == null ? "login_btn_bg" : authUIModel.loginBtnNormalImage;
+
+        boolean changeBtnIsHidden = authUIModel.changeBtnIsHidden == null || authUIModel.changeBtnIsHidden;
+
+        double changeBtnFrameOffsetY = authUIModel.changeBtnFrameOffsetY == null ? loginBtnOffsetY + loginBtnHeight + kPadding * 2 : authUIModel.changeBtnFrameOffsetY;
+
+        double privacyFrameOffsetYFromBottom = authUIModel.privacyFrameOffsetY == null ? 32 : authUIModel.privacyFrameOffsetY;
+
+        String privacyPreText = authUIModel.privacyPreText == null ? "点击一键登录表示您已经阅读并同意":authUIModel.privacyPreText;
+
+        boolean checkBoxIsHidden = authUIModel.checkBoxIsHidden == null || authUIModel.checkBoxIsHidden;
+
+        String checkedImage = authUIModel.checkedImage == null ? "icon_check" : authUIModel.checkedImage;
+
+        String unCheckImage = authUIModel.uncheckImage == null ? "icon_uncheck" : authUIModel.uncheckImage;
 
         mAuthHelper.addAuthRegisterXmlConfig(new AuthRegisterXmlConfig.Builder()
-                .setLayout(R.layout.custom_port_dialog_action_bar, new AbstractPnsViewDelegate() {
+                .setLayout(R.layout.dialog_action_bar, new AbstractPnsViewDelegate() {
                     @Override
                     public void onViewCreated(View view) {
                         findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 mAuthHelper.quitLoginPage();
+                                //mActivity.finish();
                             }
                         });
                     }
@@ -72,52 +118,69 @@ public class DialogPortConfig extends BaseUIConfig {
                 .build());
 
         mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
-                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
-                .setAppPrivacyTwo("《自定义隐私协议》2","https://baijiahao.baidu.com/s?id=1693920988135022454&wfr=spider&for=pc")
-                .setAppPrivacyThree("《自定义隐私协议》3","http://www.npc.gov.cn/zgrdw/npc/cwhhy/13jcwh/node_35014.htm")
-                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
-                .setPrivacyConectTexts(new String[]{",","","和"})
-                .setPrivacyOperatorIndex(2)
-                .setPrivacyState(false)
-                .setCheckboxHidden(true)
+
+                .setWebViewStatusBarColor(Color.GRAY)
+                .setWebNavColor(Color.WHITE)
+                .setWebNavTextColor(Color.DKGRAY)
+                .setNavReturnImgPath("icon_return")
+                .setNavReturnScaleType(ImageView.ScaleType.CENTER_INSIDE)
+                .setNavReturnImgWidth(20)
+                .setNavReturnImgHeight(20)
+
                 .setNavHidden(true)
+                .setCheckboxHidden(true)
+
+                .setLogoHidden(logoIsHidden)
+                .setLogoOffsetY(kAlertLogoOffset)
+                .setLogoWidth(logoSize)
+                .setLogoHeight(logoSize)
+                .setLogoImgPath(logoPath)
+
+                .setSloganTextSizeDp(Font_16)
+                .setSloganText("欢迎登陆")
+                .setSloganTextColor(sloganColor)
+                .setSloganOffsetY(((int) sloganFrameOffsetY))
+
+                .setNumberSizeDp(Font_20)
+                .setNumberColor(Color.parseColor(authUIModel.numberColor))
+                .setNumFieldOffsetY((int) numberFrameOffsetY)
+
+                .setLogBtnText(authUIModel.loginBtnText)
+                .setLogBtnOffsetY((int) loginBtnOffsetY)
+                .setLogBtnOffsetX(0)
+                .setLogBtnWidth(((int) loginBtnWidth))
+                .setLogBtnHeight(((int) loginBtnHeight))
+                .setLogBtnBackgroundPath(loginBtnImage)
+
                 .setSwitchAccHidden(true)
-                .setNavReturnHidden(true)
-                .setDialogBottom(false)
-                //自定义协议页跳转协议，需要在清单文件配置自定义intent-filter，不需要自定义协议页，则请不要配置ProtocolAction
-                .setProtocolAction("com.aliqin.mytel.protocolWeb")
-                .setPackageName(mPackageName)
-                .setNavColor(Color.TRANSPARENT)
-                .setWebNavColor(Color.BLUE)
 
-                .setLogoOffsetY(0)
-                .setLogoWidth(42)
-                .setLogoHeight(42)
-                .setLogoImgPath("mytel_app_launcher")
+                .setAppPrivacyOne(authUIModel.privacyOneName, authUIModel.privacyOneUrl)
+                .setAppPrivacyTwo(authUIModel.privacyTwoName, authUIModel.privacyTwoUrl)
+                .setAppPrivacyThree(authUIModel.privacyThreeName, authUIModel.privacyThreeUrl)
+                .setAppPrivacyColor(Color.GRAY, Color.parseColor(authUIModel.privacyFontColor))
+                .setPrivacyOffsetY_B(((int) privacyFrameOffsetYFromBottom))
+                .setPrivacyTextSize(Font_12)
+                .setPrivacyBefore(privacyPreText)
+                .setPrivacyEnd(authUIModel.privacySufText)
+                .setVendorPrivacyPrefix(authUIModel.privacyOperatorPreText)
+                .setVendorPrivacySuffix(authUIModel.privacyOperatorSufText)
+                .setPrivacyConectTexts(new String[]{authUIModel.privacyConnectTexts, authUIModel.privacyConnectTexts})
 
-                .setNumFieldOffsetY(unit + 10)
-                //设置字体大小，以Dp为单位，不同于Sp，不会随着系统字体变化而变化
-                .setNumberSizeDp(17)
+                .setCheckboxHidden(checkBoxIsHidden)
+                .setPrivacyState(authUIModel.checkBoxIsChecked)
+                .setCheckedImgPath(checkedImage)
+                .setUncheckedImgPath(unCheckImage)
+                .setCheckBoxWidth(authUIModel.checkBoxWH.intValue())
+                .setCheckBoxHeight(authUIModel.checkBoxWH.intValue())
 
-                .setLogBtnWidth(dialogWidth - 30)
-                .setLogBtnMarginLeftAndRight(15)
-                .setLogBtnHeight(logBtnHeight)
-                .setLogBtnTextSizeDp(16)
-                .setLogBtnBackgroundPath("login_btn_bg")
+                .setScreenOrientation(authPageOrientation)
+                .setDialogHeight(dialogHeight)
+                .setDialogWidth(dialogWidth)
+                .setDialogOffsetY(0)
 
-                .setLogBtnOffsetY(unit * 4)
-                .setSloganText("为了您的账号安全，请先绑定手机号")
-                .setSloganOffsetY(unit * 3)
-                .setSloganTextSizeDp(11)
-
-                .setPageBackgroundPath("dialog_page_background")
+                //.setDialogBottom(true)
                 .setAuthPageActIn(String.valueOf(R.anim.zoom_in), String.valueOf(R.anim.zoom_out))
                 .setAuthPageActOut(String.valueOf(R.anim.zoom_in), String.valueOf(R.anim.zoom_out))
-                .setVendorPrivacyPrefix("《")
-                .setVendorPrivacySuffix("》")
-                .setDialogWidth(dialogWidth)
-                .setDialogHeight(dialogHeight)
-                .setScreenOrientation(authPageOrientation)
                 .create());
     }
 }

@@ -121,7 +121,7 @@ class _DebugPageState extends State<DebugPage> {
             ),
             _divider('授权页面操作'),
             Container(
-              height: 150,
+              height: 120,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GridView.count(
                 physics: const NeverScrollableScrollPhysics(),

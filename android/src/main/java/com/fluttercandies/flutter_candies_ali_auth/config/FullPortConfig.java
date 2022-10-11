@@ -50,11 +50,6 @@ public class FullPortConfig extends BaseUIConfig {
 
         boolean logoIsHidden = authUIModel.logoIsHidden != null ? authUIModel.logoIsHidden : true;
 
-        Log.i("FullPortConfig", "authUIModel.logoImage:" + authUIModel.logoImage);
-
-        Log.i("FullPortConfig", "logoIsHidden:" + logoIsHidden);
-
-
         if (!logoIsHidden) {
             try {
                 FlutterPlugin.FlutterAssets flutterAssets = flutterPluginBinding.getFlutterAssets();
@@ -65,6 +60,10 @@ public class FullPortConfig extends BaseUIConfig {
                 logoPath = "mytel_app_launcher";
             }
         }
+
+        double sloganFrameOffsetY = authUIModel.sloganFrameOffsetY == null ? (kLogoOffset + kLogoSize + kPadding) : authUIModel.sloganFrameOffsetY;
+
+        double numberFrameOffsetY = authUIModel.numberFrameOffsetY == null ? (sloganFrameOffsetY + Font_24 + kPadding) : authUIModel.numberFrameOffsetY;
 
         double loginBtnOffsetY = authUIModel.loginBtnFrameOffsetY == null ? mScreenHeightDp * .5 : authUIModel.loginBtnFrameOffsetY;
 
@@ -79,6 +78,10 @@ public class FullPortConfig extends BaseUIConfig {
         double changeBtnFrameOffsetY = authUIModel.changeBtnFrameOffsetY == null ? loginBtnOffsetY + loginBtnHeight + kPadding * 2 : authUIModel.changeBtnFrameOffsetY;
 
         double privacyFrameOffsetYFromBottom = authUIModel.privacyFrameOffsetY == null ? 32 : authUIModel.privacyFrameOffsetY;
+
+        String privacyPreText = authUIModel.privacyPreText == null ? "已经阅读并同意" : authUIModel.privacyPreText;
+
+        boolean checkBoxIsHidden = authUIModel.checkBoxIsHidden != null && authUIModel.checkBoxIsHidden;
 
         String checkedImage = authUIModel.checkedImage == null ? "icon_check" : authUIModel.checkedImage;
 
@@ -97,10 +100,12 @@ public class FullPortConfig extends BaseUIConfig {
                 .setNavReturnImgHeight(20)
                 .setNavText("")
 
-                .setWebViewStatusBarColor(Color.parseColor("#026ED2"))
+                .setWebViewStatusBarColor(Color.GRAY)
+                .setWebNavColor(Color.WHITE)
+                .setWebNavTextColor(Color.DKGRAY)
 
                 .setLogoHidden(logoIsHidden)
-                .setLogoHeight(kLogoOffset)
+                .setLogoOffsetY(kLogoOffset)
                 .setLogoWidth(kLogoSize)
                 .setLogoHeight(kLogoSize)
                 .setLogoImgPath(logoPath)
@@ -108,9 +113,11 @@ public class FullPortConfig extends BaseUIConfig {
                 .setSloganTextSizeDp(Font_24)
                 .setSloganText("欢迎登陆")
                 .setSloganTextColor(sloganColor)
+                .setSloganOffsetY(((int) sloganFrameOffsetY))
 
                 .setNumberSizeDp(Font_20)
-                .setNumberColor(Color.parseColor("#2BD180"))
+                .setNumberColor(Color.parseColor(authUIModel.numberColor))
+                .setNumFieldOffsetY(((int) numberFrameOffsetY))
 
                 .setLogBtnText(authUIModel.loginBtnText)
                 .setLogBtnOffsetY((int) loginBtnOffsetY)
@@ -131,13 +138,13 @@ public class FullPortConfig extends BaseUIConfig {
                 .setAppPrivacyColor(Color.GRAY, Color.parseColor(authUIModel.privacyFontColor))
                 .setPrivacyOffsetY_B(((int) privacyFrameOffsetYFromBottom))
                 .setPrivacyTextSize(Font_12)
-                .setPrivacyBefore(authUIModel.privacyPreText)
+                .setPrivacyBefore(privacyPreText)
                 .setPrivacyEnd(authUIModel.privacySufText)
                 .setVendorPrivacyPrefix(authUIModel.privacyOperatorPreText)
                 .setVendorPrivacySuffix(authUIModel.privacyOperatorSufText)
                 .setPrivacyConectTexts(new String[]{authUIModel.privacyConnectTexts, authUIModel.privacyConnectTexts})
 
-                .setCheckboxHidden(authUIModel.checkBoxIsHidden)
+                .setCheckboxHidden(checkBoxIsHidden)
                 .setPrivacyState(authUIModel.checkBoxIsChecked)
                 .setCheckedImgPath(checkedImage)
                 .setUncheckedImgPath(unCheckImage)

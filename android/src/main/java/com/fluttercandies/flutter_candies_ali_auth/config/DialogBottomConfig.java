@@ -1,10 +1,21 @@
 package com.fluttercandies.flutter_candies_ali_auth.config;
 
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_12;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_16;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_20;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.Font_24;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kAlertLogoOffset;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kLogoOffset;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kLogoSize;
+import static com.fluttercandies.flutter_candies_ali_auth.Constant.kPadding;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.fluttercandies.flutter_candies_ali_auth.model.AuthUIModel;
 import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
@@ -34,7 +45,9 @@ public class DialogBottomConfig extends BaseUIConfig {
 
         updateScreenSize(authPageOrientation);
 
-        int dialogHeight = (int) (mScreenHeightDp * 0.5f);
+        int dialogHeight = (int) (mScreenHeightDp * 0.55f);
+
+        int dialogWidth = (int) (mScreenWidthDp * 0.9f);
 
         //sdk默认控件的区域是marginTop50dp
         int designHeight = dialogHeight - 50;
@@ -43,11 +56,52 @@ public class DialogBottomConfig extends BaseUIConfig {
 
         int logBtnHeight = (int) (unit * 1.2);
 
-//        mAuthHelper.addAuthRegistViewConfig("switch_msg", new AuthRegisterViewConfig.Builder()
-//                .setView(initSwitchView(unit * 6))
-//                .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
-//                .build());
-//
+        int diaLogOffsetY = (int) (dialogHeight * 0.35f);
+
+        boolean logoIsHidden = authUIModel.logoIsHidden != null ? authUIModel.logoIsHidden : true;
+
+        String logoPath = null;
+
+        if (!logoIsHidden) {
+            try {
+                FlutterPlugin.FlutterAssets flutterAssets = flutterPluginBinding.getFlutterAssets();
+                logoPath = flutterAssets.getAssetFilePathByName(authUIModel.logoImage);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logoPath = "mytel_app_launcher";
+            }
+        }
+
+        int logoSize = (int) (kLogoSize * 0.85f);
+
+        int sloganColor = mActivity.getResources().getColor(R.color.md_grey_700);
+
+        double sloganFrameOffsetY = authUIModel.sloganFrameOffsetY == null ? (kAlertLogoOffset + logoSize + kPadding) : authUIModel.sloganFrameOffsetY;
+
+        double numberFrameOffsetY = authUIModel.numberFrameOffsetY == null ? (sloganFrameOffsetY + Font_20 + kPadding) : authUIModel.numberFrameOffsetY;
+
+        double loginBtnWidth = authUIModel.loginBtnWidth == null ? dialogWidth * 0.85 : authUIModel.loginBtnWidth;
+
+        double loginBtnHeight = authUIModel.loginBtnHeight == null ? 48 : authUIModel.loginBtnHeight;
+
+        double loginBtnOffsetY = authUIModel.loginBtnFrameOffsetY == null ? (dialogHeight * 0.5f) : authUIModel.loginBtnFrameOffsetY;
+
+        String loginBtnImage = authUIModel.loginBtnNormalImage == null ? "login_btn_bg" : authUIModel.loginBtnNormalImage;
+
+        boolean changeBtnIsHidden = authUIModel.changeBtnIsHidden == null || authUIModel.changeBtnIsHidden;
+
+        double changeBtnFrameOffsetY = authUIModel.changeBtnFrameOffsetY == null ? loginBtnOffsetY + loginBtnHeight + kPadding * 2 : authUIModel.changeBtnFrameOffsetY;
+
+        double privacyFrameOffsetYFromBottom = authUIModel.privacyFrameOffsetY == null ? 32 : authUIModel.privacyFrameOffsetY;
+
+        String privacyPreText = authUIModel.privacyPreText == null ? "点击一键登录表示您已经阅读并同意" : authUIModel.privacyPreText;
+
+        boolean checkBoxIsHidden = authUIModel.checkBoxIsHidden == null || authUIModel.checkBoxIsHidden;
+
+        String checkedImage = authUIModel.checkedImage == null ? "icon_check" : authUIModel.checkedImage;
+
+        String unCheckImage = authUIModel.uncheckImage == null ? "icon_uncheck" : authUIModel.uncheckImage;
+
         mAuthHelper.addAuthRegisterXmlConfig(new AuthRegisterXmlConfig.Builder()
                 .setLayout(R.layout.dialog_action_bar, new AbstractPnsViewDelegate() {
                     @Override
@@ -62,75 +116,71 @@ public class DialogBottomConfig extends BaseUIConfig {
                     }
                 })
                 .build());
-        mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
 
-                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
-                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
-                .setWebViewStatusBarColor(Color.TRANSPARENT)
+        mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
+                .setWebViewStatusBarColor(Color.GRAY)
+                .setWebNavColor(Color.WHITE)
+                .setWebNavTextColor(Color.DKGRAY)
+                .setNavReturnImgPath("icon_return")
+                .setNavReturnScaleType(ImageView.ScaleType.CENTER_INSIDE)
+                .setNavReturnImgWidth(20)
+                .setNavReturnImgHeight(20)
 
                 .setNavHidden(true)
                 .setCheckboxHidden(true)
 
-                .setLogoImgPath("mytel_app_launcher")
-                .setLogoOffsetY(0)
-                .setLogoWidth(42)
-                .setLogoHeight(42)
+                .setLogoHidden(logoIsHidden)
+                .setLogoOffsetY(kAlertLogoOffset)
+                .setLogoWidth(logoSize)
+                .setLogoHeight(logoSize)
+                .setLogoImgPath(logoPath)
 
-                .setNumFieldOffsetY(unit + 10)
-                .setNumberSizeDp(17)
+                .setSloganTextSizeDp(Font_16)
+                .setSloganText("欢迎登陆")
+                .setSloganTextColor(sloganColor)
+                .setSloganOffsetY(((int) sloganFrameOffsetY))
 
-                .setLogBtnOffsetY(unit * 4)
-                .setLogBtnHeight(logBtnHeight)
-                .setLogBtnMarginLeftAndRight(30)
-                .setLogBtnTextSizeDp(20)
-                .setLogBtnBackgroundPath("login_btn_bg")
+                .setNumberSizeDp(Font_20)
+                .setNumberColor(Color.parseColor(authUIModel.numberColor))
+                .setNumFieldOffsetY((int) numberFrameOffsetY)
 
-                .setSloganHidden(true)
+                .setLogBtnText(authUIModel.loginBtnText)
+                .setLogBtnOffsetY((int) loginBtnOffsetY)
+                .setLogBtnOffsetX(0)
+                .setLogBtnWidth(((int) loginBtnWidth))
+                .setLogBtnHeight(((int) loginBtnHeight))
+                .setLogBtnBackgroundPath(loginBtnImage)
+
+                .setSwitchAccHidden(true)
+
+                .setAppPrivacyOne(authUIModel.privacyOneName, authUIModel.privacyOneUrl)
+                .setAppPrivacyTwo(authUIModel.privacyTwoName, authUIModel.privacyTwoUrl)
+                .setAppPrivacyThree(authUIModel.privacyThreeName, authUIModel.privacyThreeUrl)
+                .setAppPrivacyColor(Color.GRAY, Color.parseColor(authUIModel.privacyFontColor))
+                .setPrivacyOffsetY_B(((int) privacyFrameOffsetYFromBottom))
+                .setPrivacyTextSize(Font_12)
+                .setPrivacyBefore(privacyPreText)
+                .setPrivacyEnd(authUIModel.privacySufText)
+                .setVendorPrivacyPrefix(authUIModel.privacyOperatorPreText)
+                .setVendorPrivacySuffix(authUIModel.privacyOperatorSufText)
+                .setPrivacyConectTexts(new String[]{authUIModel.privacyConnectTexts, authUIModel.privacyConnectTexts})
+
+                .setCheckboxHidden(checkBoxIsHidden)
+                .setPrivacyState(authUIModel.checkBoxIsChecked)
+                .setCheckedImgPath(checkedImage)
+                .setUncheckedImgPath(unCheckImage)
+                .setCheckBoxWidth(authUIModel.checkBoxWH.intValue())
+                .setCheckBoxHeight(authUIModel.checkBoxWH.intValue())
 
                 .setScreenOrientation(authPageOrientation)
                 .setDialogHeight(dialogHeight)
-                .setDialogBottom(true)
+                .setDialogWidth(dialogWidth)
+                .setDialogOffsetY(diaLogOffsetY)
+
+                //.setDialogBottom(true)
                 .setAuthPageActIn(String.valueOf(R.anim.slide_up), String.valueOf(R.anim.slide_down))
                 .setAuthPageActOut(String.valueOf(R.anim.slide_up), String.valueOf(R.anim.slide_down))
                 .create());
 
-//
-//        mAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
-//                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
-//                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
-//                .setWebViewStatusBarColor(Color.TRANSPARENT)
-//
-//                .setNavHidden(true)
-//                .setSwitchAccHidden(true)
-//                .setPrivacyState(false)
-//                .setCheckboxHidden(true)
-//
-//                .setLogoImgPath("mytel_app_launcher")
-//                .setLogoOffsetY(0)
-//                .setLogoWidth(42)
-//                .setLogoHeight(42)
-//
-//                .setNumFieldOffsetY(unit + 10)
-//                .setNumberSizeDp(17)
-//
-//                .setSloganText("为了您的账号安全，请先绑定手机号")
-//                .setSloganOffsetY(unit * 3)
-//                .setSloganTextSizeDp(11)
-//
-//                .setLogBtnOffsetY(unit * 4)
-//                .setLogBtnHeight(logBtnHeight)
-//                .setLogBtnMarginLeftAndRight(30)
-//                .setLogBtnTextSizeDp(20)
-//                .setLogBtnBackgroundPath("login_btn_bg")
-//
-//                .setPageBackgroundPath("dialog_page_background")
-//                .setAuthPageActIn(String.valueOf(R.anim.in_activity), String.valueOf(R.anim.out_activity))
-//                .setAuthPageActOut("in_activity", "out_activity")
-//                .setVendorPrivacyPrefix("《")
-//                .setVendorPrivacySuffix("》")
-//                .setDialogHeight(dialogHeight)
-//                .setDialogBottom(true)
-//                .setScreenOrientation(authPageOrientation)
-//                .create());
     }
 }

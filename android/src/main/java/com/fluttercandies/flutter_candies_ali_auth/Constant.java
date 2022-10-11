@@ -80,17 +80,8 @@ public class Constant {
     public static int Font_14 = 14;
     public static int Font_12 = 12;
 
-
-//    let PF_Light: String = "PingFangSC-Light"
-//
-//    let PF_Regular: String = "PingFangSC-Regular"
-//
-//    let PF_Bold: String = "PingFangSC-Semibold"
-//
-//    let kScreen_Width: CGFloat = UIScreen.main.bounds.width
-//    let kScreen_Height: CGFloat = UIScreen.main.bounds.height
-
     public static int kLogoOffset = 80;
+    public static int kAlertLogoOffset = 12;
     public static int kLogoSize = 100;
 
     public static int kPadding = 8;

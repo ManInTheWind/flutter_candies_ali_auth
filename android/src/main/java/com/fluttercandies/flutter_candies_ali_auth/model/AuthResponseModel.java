@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AuthResponseModel {
-   public String resultCode;
-   public String msg;
-   public String requestId;
-   public String token;
-   public String innerMsg;
-   public String innerCode;
+   private String resultCode;
+   private String msg;
+   private String requestId;
+   private String token;
+   private String innerMsg;
+   private String innerCode;
 
 //    public AuthResponseModel(@NonNull String resultCode, @NonNull  String msg,
 //                             @NonNull  String requestId, @Nullable String token,

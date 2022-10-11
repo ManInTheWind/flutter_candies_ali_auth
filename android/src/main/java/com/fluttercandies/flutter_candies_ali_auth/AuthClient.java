@@ -199,6 +199,13 @@ public class AuthClient {
     }
 
     public void getLoginToken() {
+
+        if (Objects.isNull(mAuthHelper) || !sdkAvailable) {
+            AuthResponseModel authResponseModel = AuthResponseModel.initFailed(initFailedMsg);
+            eventSink.success(authResponseModel.toJson());
+            return;
+        }
+
         baseUIConfig = BaseUIConfig.init(0, mActivity, mAuthHelper, eventSink);
         assert baseUIConfig != null;
         baseUIConfig.configAuthPage(flutterPluginBinding, authModel.authUIModel);
@@ -239,6 +246,12 @@ public class AuthClient {
     }
 
     public void getLoginToken(Object arguments) {
+
+        if (Objects.isNull(mAuthHelper) || !sdkAvailable) {
+            AuthResponseModel authResponseModel = AuthResponseModel.initFailed(initFailedMsg);
+            eventSink.success(authResponseModel.toJson());
+            return;
+        }
 
         try {
             authModel = AuthModel.fromJson(arguments);

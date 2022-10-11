@@ -80,7 +80,7 @@ public class AuthUIModel {
     public Double sloganFrameOffsetY;
 
     // number
-    public String numberColor;
+    public String numberColor = "#2BD180";
     public Integer numberFontSize;
 
     public Double numberFrameOffsetX;
@@ -115,7 +115,7 @@ public class AuthUIModel {
 
     // checkBox
     public Boolean checkBoxIsChecked = false;
-    public Boolean checkBoxIsHidden = false;
+    public Boolean checkBoxIsHidden;
     public Double checkBoxWH = 18.0;
 
     public String checkedImage;
@@ -138,7 +138,7 @@ public class AuthUIModel {
 
     public String privacyConnectTexts = "和";
 
-    public String privacyPreText = "已阅读并同意";
+    public String privacyPreText;
 
     public String privacySufText;
 
